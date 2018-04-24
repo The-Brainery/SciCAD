@@ -1,6 +1,6 @@
 {
   "name": "@scicad/ui",
-  "version": "1.1.70",
+  "version": "1.1.71",
   "description": "Phosphor based layout for managaing ui and process plugins",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "dependencies": {
     "@micropede/client": "0.0.39",
     "@phosphor/widgets": "^1.5.0",
-    "@scicad/ui-plugin": "^1.1.70",
+    "@scicad/ui-plugin": "^1.1.71",
     "browser-request": "^0.3.3",
     "jquery": "^3.2.1",
     "keyboard-shortcut": "^1.2.0",
