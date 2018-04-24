@@ -1,7 +1,7 @@
 {
   "name": "@scicad/application",
   "productName": "scicad",
-  "version": "1.1.69",
+  "version": "1.1.70",
   "description": "",
   "main": "bin/scicad",
   "scripts": {
@@ -18,16 +18,16 @@
     "electron-mocha": "^5.0.0"
   },
   "dependencies": {
-    "@scicad/device-controller": "^1.1.67",
-    "@scicad/device-ui-plugin": "^1.1.68",
-    "@scicad/dropbot-plugin": "^1.1.68",
-    "@scicad/global-ui-plugin": "^1.1.69",
-    "@scicad/models": "^1.1.68",
-    "@scicad/step-ui-plugin": "^1.1.69",
-    "@scicad/ui": "^1.1.67",
-    "@scicad/version-info": "^1.1.67",
     "@micropede/broker": "0.0.28",
     "@micropede/client": "0.0.39",
+    "@scicad/device-controller": "^1.1.70",
+    "@scicad/device-ui-plugin": "^1.1.70",
+    "@scicad/dropbot-plugin": "^1.1.70",
+    "@scicad/global-ui-plugin": "^1.1.70",
+    "@scicad/models": "^1.1.70",
+    "@scicad/step-ui-plugin": "^1.1.70",
+    "@scicad/ui": "^1.1.70",
+    "@scicad/version-info": "^1.1.70",
     "@yac/api": "0.0.24",
     "ascoltatori": "git+https://github.com/Lucaszw/ascoltatori.git",
     "cors": "^2.8.4",

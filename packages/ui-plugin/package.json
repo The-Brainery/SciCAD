@@ -1,6 +1,6 @@
 {
   "name": "@scicad/ui-plugin",
-  "version": "1.1.67",
+  "version": "1.1.70",
   "description": "Parent class of scicad ui plugins",
   "main": "src/ui-plugin.js",
   "scripts": {
