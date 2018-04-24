@@ -1,6 +1,6 @@
 {
   "name": "@scicad/version-info",
-  "version": "1.1.72",
+  "version": "1.1.73",
   "description": "Display the version of each plugin compared to state or file",
   "main": "index.js",
   "author": "Sci-Bots",
