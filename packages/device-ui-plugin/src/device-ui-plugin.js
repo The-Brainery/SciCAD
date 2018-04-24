@@ -104,6 +104,7 @@ class DeviceUIPlugin extends UIPlugin {
       let content = payload.content;
       const svg = ParseSVGFromString(content);
       const objects = ConstructObjectsFromSVG(svg);
+      console.log("Loading devce!!!!");
       this.trigger('put-device', {'three-object': objects, ppi: objects.ppi});
       return this.notifySender(payload, 'success', "load-device");
     } catch (e) {

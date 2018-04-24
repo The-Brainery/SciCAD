@@ -10,7 +10,7 @@ var {Console} = require('console');
 var console = new Console(process.stdout, process.stderr);
 
 var MicropedeAsync = require('@micropede/client/src/async.js');
-var MicroDrop = require('./index.js');
+var SciCAD = require('./index.js');
 
 const DEFAULT_DEVICE_JSON = './public/resources/default.json';
 const DEFAULT_DEVICE_LENGTH = 92;
@@ -27,11 +27,11 @@ const asyncTimer = (time) => {
 }
 let scicad;
 
-describe('MicroDrop', async function() {
+describe('SciCAD', async function() {
   this.timeout(10000);
 
   before(async () => {
-    await MicroDrop(electron, PORTS, undefined, false, true);
+    await SciCAD(electron, PORTS, undefined, false, true);
     scicad = new MicropedeAsync('scicad', 'localhost', 1884);
 
     await new Promise((resolve, reject) => {
@@ -40,7 +40,7 @@ describe('MicroDrop', async function() {
       });
 
       asyncTimer(10000).then((d) => {
-        reject('MicroDrop.before timed out');
+        reject('SciCAD.before timed out');
       });
     });
 

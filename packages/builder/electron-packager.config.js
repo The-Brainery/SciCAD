@@ -4,7 +4,7 @@ const options = {
   derefSymlinks: true,
   overwrite: true,
   packageManager: false,
-  name: 'MicroDrop',
+  name: 'SciCAD',
   asar: false,
   out: `${__dirname}/packager`,
   ignore: /(nsis)/

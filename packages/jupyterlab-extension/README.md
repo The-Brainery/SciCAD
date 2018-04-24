@@ -1,12 +1,12 @@
-# MicroDrop JupyterLab Extension
+# SciCAD JupyterLab Extension
 
-A JupyterLab extension to interface with MicroDrop 3.0
+A JupyterLab extension to interface with SciCAD 3.0
 
 
 ## Prerequisites
 
 * JupyterLab
-* MicroDrop 3
+* SciCAD 3
 
 
 ## Development

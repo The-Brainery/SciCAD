@@ -1,3 +1,3 @@
 # @scicad/application
 
-Top Level Application for MicroDrop
+Top Level Application for SciCAD

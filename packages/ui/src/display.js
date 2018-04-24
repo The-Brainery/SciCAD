@@ -80,7 +80,7 @@ function init() {
   window.widgetMap = new Map();
 
   panel.spacing = 10;
-  // dock = createDock("MicroDrop");
+  // dock = createDock("SciCAD");
 
   panel.id = 'main';
   // dock.addWidget(panel);

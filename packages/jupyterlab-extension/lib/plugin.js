@@ -5,7 +5,7 @@ require('font-awesome/css/font-awesome.css');
 
 var _ = require('lodash');
 var $ = require('jquery');
-var MicroDropAsync = require('@scicad/async/MicroDropAsync');
+var SciCADAsync = require('@scicad/async/SciCADAsync');
 var Mustache = require('mustache');
 var {Widget, Panel, FocusTracker} = require('@phosphor/widgets');
 var {ILayoutRestorer} = require('@jupyterlab/application');
@@ -18,7 +18,7 @@ var UIPluginLauncher = require('./UIPluginLauncher.js');
 
 const MIME_TYPE = 'text/scicad';
 const MIME_TYPES = ['text/scicad', 'text/scicad+json'];
-const NAME = 'MicroDrop';
+const NAME = 'SciCAD';
 
 const DIRTY_CLASS = 'jp-mod-dirty';
 
@@ -191,7 +191,7 @@ exports.default = [{
 
     launcher.add({
       displayName: "UI Plugin Launcher",
-      category: "MicroDrop",
+      category: "SciCAD",
       rank: 0,
       callback: callback
     });

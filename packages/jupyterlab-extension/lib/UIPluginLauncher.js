@@ -5,7 +5,7 @@ require('font-awesome/css/font-awesome.css');
 
 var _ = require('lodash');
 var $ = require('jquery');
-var MicroDropAsync = require('@scicad/async/MicroDropAsync');
+var SciCADAsync = require('@scicad/async/SciCADAsync');
 var Mustache = require('mustache');
 var {Widget, Panel, FocusTracker} = require('@phosphor/widgets');
 var {ILayoutRestorer} = require('@jupyterlab/application');
@@ -17,11 +17,11 @@ var StateListener = require('./StateListener');
 
 const MIME_TYPE = 'text/plain';
 const MIME_TYPES = ['text/plain', 'text/scicad+json', 'text/scicad'];
-const NAME = 'MicroDrop';
+const NAME = 'SciCAD';
 
 const DIRTY_CLASS = 'jp-mod-dirty';
 
-class UIPluginLauncher extends MicroDropAsync.MqttClient {
+class UIPluginLauncher extends SciCADAsync.MqttClient {
   constructor(panel) {
     super("UIPluginLauncher");
     this.panel = panel;

@@ -9,7 +9,7 @@ function moveMicrodropOutput() {
   fs.readdirSync(packagerFolder).forEach(file => {
     if (path.extname(file) == '') {
       let oldPath = path.resolve(packagerFolder, file);
-      let newPath = path.resolve(__dirname, 'MicroDrop');
+      let newPath = path.resolve(__dirname, 'SciCAD');
       fs.renameSync(oldPath, newPath);
     }
   });
@@ -24,7 +24,7 @@ function fetchMiniconda(callback) {
   });
 
   file.on('finish', function(){
-    spawnSync(`cmd /C start /wait "" ${filepath} /NoRegistry=1 /RegisterPython=0 /AddToPath=0 /InstallationType=JustMe /S /D=${path.resolve(__dirname, 'MicroDrop/miniconda')}`, [], {shell: true, stdio: 'inherit'});
+    spawnSync(`cmd /C start /wait "" ${filepath} /NoRegistry=1 /RegisterPython=0 /AddToPath=0 /InstallationType=JustMe /S /D=${path.resolve(__dirname, 'SciCAD/miniconda')}`, [], {shell: true, stdio: 'inherit'});
     callback();
   });
 

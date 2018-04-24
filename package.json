@@ -1,5 +1,5 @@
 {
-  "description": "MicroDrop with MQTT support and Web UI",
+  "description": "SciCAD with MQTT support and Web UI",
   "scripts": {
     "start": "electron ./packages/application",
     "bootstrap": "lerna bootstrap",
@@ -12,7 +12,7 @@
   },
   "repository": "git+https://github.com/The-Brainery/SciCAD.git",
   "keywords": [
-    "MicroDrop",
+    "SciCAD",
     "Web UI"
   ],
   "author": "Sci-Bots",

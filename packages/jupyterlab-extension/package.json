@@ -1,7 +1,7 @@
 {
   "name": "@scicad/jupyterlab_extension",
   "version": "0.0.10",
-  "description": "MicroDrop JupyterLab Extension.",
+  "description": "SciCAD JupyterLab Extension.",
   "author": "lucaszw",
   "main": "lib/plugin.js",
   "keywords": [

@@ -9,7 +9,7 @@ console.log("Pt 0. Running electron packager");
 console.log("-------------------------------");
 spawnSync('node electron-packager.config.js', [], {cwd: `${path.resolve(__dirname, '..')}`, stdio: 'inherit', shell: true});
 
-console.log("Pt 1. Creating MicroDrop folder with miniconda");
+console.log("Pt 1. Creating SciCAD folder with miniconda");
 console.log("---------------------------------------------");
 p1(() => {
 

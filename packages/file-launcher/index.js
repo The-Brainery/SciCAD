@@ -44,7 +44,7 @@ app.on('ready', () => {
     let image = nativeImage.createFromPath(path.join(__dirname, 'icon.png'));
     image = image.resize({width: 20, height: 20});
     tray = new Tray(image);
-    tray.setToolTip('MicroDrop');
+    tray.setToolTip('SciCAD');
     app.quit();
   }
 });

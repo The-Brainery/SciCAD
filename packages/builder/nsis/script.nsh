@@ -1,7 +1,7 @@
-!define APPNAME "MicroDrop"
+!define APPNAME "SciCAD"
 !define COMPANYNAME "Sci-Bots"
-!define ZIPFILE "MicroDrop.7z"
-!define DIRNAME "MicroDrop"
+!define ZIPFILE "SciCAD.7z"
+!define DIRNAME "SciCAD"
 
 InstallDir "$PROFILE\scicad"
 DirText "Choose a folder in which to install"
@@ -29,7 +29,7 @@ Section
 
   # Start Menu
   createDirectory "$SMPROGRAMS\${COMPANYNAME}"
-  createShortCut "$SMPROGRAMS\${COMPANYNAME}\${APPNAME}.lnk" "$MINICONDA\Scripts\activate.bat" "&& cmd /c start $INSTDIR\${DIRNAME}\MicroDrop.exe" "$INSTDIR\logo.ico"
+  createShortCut "$SMPROGRAMS\${COMPANYNAME}\${APPNAME}.lnk" "$MINICONDA\Scripts\activate.bat" "&& cmd /c start $INSTDIR\${DIRNAME}\SciCAD.exe" "$INSTDIR\logo.ico"
 
   Delete "$INSTDIR\${ZIPFILE}"
 

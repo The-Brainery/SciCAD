@@ -21,7 +21,7 @@ const yac = require('@yac/api');
 const Broker = require('@micropede/broker/src/index.js');
 const {MicropedeClient, GetReceiver, DumpStack} = require('@micropede/client/src/client.js');
 const MicropedeAsync = require('@micropede/client/src/async.js');
-const MicroDropUI = require('@scicad/ui/index.js');
+const SciCADUI = require('@scicad/ui/index.js');
 const VersionInfo = require('@scicad/version-info');
 const FindUserDefinedPlugins = require('../utils/find-scicad-plugins.js');
 
@@ -49,7 +49,7 @@ class WebServer extends MicropedeClient {
       'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE'
     }));
 
-    this.use(express.static(MicroDropUI.GetUIPath(), {extensions:['html']}));
+    this.use(express.static(SciCADUI.GetUIPath(), {extensions:['html']}));
     this.use(express.static(VersionInfo.GetPath(), {extensions:['html']}));
     this.use(express.static(path.join(__dirname,"resources")));
     this.use(bodyParser.json({limit: '50mb'}));
@@ -211,7 +211,7 @@ class WebServer extends MicropedeClient {
       // to obtain confirmation. Follow this api call with "restore-protocol"
       const options = {
         properties: ['openFile'],
-        filters: [{name: 'MicroDrop Protocol', extensions: ['udrp']}]
+        filters: [{name: 'SciCAD Protocol', extensions: ['udrp']}]
       };
       remote.dialog.showOpenDialog(options, (paths) => {
         fs.readFile(paths[0], 'utf8', (err, data) => {
@@ -353,7 +353,7 @@ class WebServer extends MicropedeClient {
 
   exit() {
     ipcRenderer.send('exit');
-    return "MicroDrop Terminated"
+    return "SciCAD Terminated"
   }
 
   reset() {
@@ -572,6 +572,7 @@ module.exports.init = (ports, defaultRunningPlugins=[]) => {
   window.addEventListener('error', function(e) {
       console.error(e.message);
   });
+  console.log("Creating broker:");
   const broker = new Broker('scicad',ports.mqtt_ws_port, ports.mqtt_tcp_port);
 
   broker.on('broker-ready', () => {

@@ -4,7 +4,7 @@ const path = require('path');
 const {spawnSync} = require('child_process');
 
 function createArchive() {
-  spawnSync(`7z a MicroDrop ${path.resolve(__dirname, 'MicroDrop')}`, [], {shell: true, stdio: 'inherit'});
+  spawnSync(`7z a SciCAD ${path.resolve(__dirname, 'SciCAD')}`, [], {shell: true, stdio: 'inherit'});
 }
 
 module.exports = createArchive;

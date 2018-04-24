@@ -5,7 +5,7 @@ require('font-awesome/css/font-awesome.css');
 
 var _ = require('lodash');
 var $ = require('jquery');
-var MicroDropAsync = require('@scicad/async/MicroDropAsync');
+var SciCADAsync = require('@scicad/async/SciCADAsync');
 var StaterSaverUI = require('@scicad/state-saver');
 var Mustache = require('mustache');
 var {Widget, Panel, FocusTracker} = require('@phosphor/widgets');
@@ -16,7 +16,7 @@ var {MimeDocumentFactory} = require('@jupyterlab/docregistry');
 
 const MIME_TYPE = 'text/plain';
 const MIME_TYPES = ['text/plain', 'text/scicad+json', 'text/scicad'];
-const NAME = 'MicroDrop';
+const NAME = 'SciCAD';
 
 const DIRTY_CLASS = 'jp-mod-dirty';
 
@@ -48,7 +48,7 @@ class StateListener extends StaterSaverUI {
   }
   async isActive() {
     try {
-      const scicad = new MicroDropAsync();
+      const scicad = new SciCADAsync();
       const activeFile = await scicad.getState('state-listener', 'active-file', 200);
       const thisFile = _.get(this.panel, 'context.path');
       return activeFile == thisFile;
@@ -78,7 +78,7 @@ class StateListener extends StaterSaverUI {
     state = _.omit(state, ignore);
     let missingRoutes = [];
     for (const [plugin,props] of Object.entries(state)) {
-      const scicad = new MicroDropAsync();
+      const scicad = new SciCADAsync();
       // Get subscriptions for each plugin
       let subs;
       try { subs = await scicad.getSubscriptions(plugin, 200);

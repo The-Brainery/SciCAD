@@ -1,6 +1,6 @@
 #!/usr/bin/env electron
 require('pkginfo')(module);
-const MicroDrop = require('../index.js');
+const SciCAD = require('../index.js');
 const electron = require('electron');
 electron._autoUpdater = require("electron-updater").autoUpdater;
 
@@ -35,23 +35,23 @@ const argv = require('yargs')
   .array('with-plugins')
   .command('dump', 'dump state to file', async (yargs) => {
     const ports = Ports(yargs.argv);
-    console.log(await MicroDrop.dump(electron, ports));
+    console.log(await SciCAD.dump(electron, ports));
     process.exit();
   })
   .command('launch [file]', 'launch scicad', () => {}, async (argv) => {
-    MicroDrop(electron, Ports(argv), argv.withPlugins, argv.file);
+    SciCAD(electron, Ports(argv), argv.withPlugins, argv.file);
   })
   .command('load-device <file>', 'load device file', () => {}, async (argv) => {
-    await MicroDrop.loadSvg(electron, Ports(argv), argv.file);
+    await SciCAD.loadSvg(electron, Ports(argv), argv.file);
     process.exit();
   })
-  .command('reset', 'Reset MicroDrop data', async (yargs) => {
-    await MicroDrop.reset(electron, Ports(yargs.argv));
+  .command('reset', 'Reset SciCAD data', async (yargs) => {
+    await SciCAD.reset(electron, Ports(yargs.argv));
     console.log("reset complete");
     process.exit();
   })
   .command('$0 [file]', 'the default command', () => {}, (argv) => {
-    MicroDrop(electron, Ports(argv), argv.withPlugins, argv.file,
+    SciCAD(electron, Ports(argv), argv.withPlugins, argv.file,
       !argv.headless, undefined, argv.debug);
   })
   .argv;

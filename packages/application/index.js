@@ -9,7 +9,7 @@ const request = require('request');
 const mqtt = require('mqtt');
 const _ = require('lodash');
 
-const MicroDropModels = require('@scicad/models');
+const SciCADModels = require('@scicad/models');
 const MicropedeAsync = require('@micropede/client/src/async.js');
 const {MicropedeClient, DumpStack} = require('@micropede/client/src/client.js');
 
@@ -152,6 +152,7 @@ const init = (electron, ports, defaultRunningPlugins=[], file=undefined, show=tr
     if (debug) require('electron-debug')({showDevTools: true});
 
     function init () {
+
       let win;
       const options = {
         webPreferences: {
@@ -181,12 +182,13 @@ const init = (electron, ports, defaultRunningPlugins=[], file=undefined, show=tr
       // Load main window
       ipcMain.on('broker-ready', (event, arg) => {
         // Load models
-        MicroDropModels.initAsElectronProcesses(electron, ports);
+        SciCADModels.initAsElectronProcesses(electron, ports);
 
         let filedata;
 
         const client = new MicropedeClient(APPNAME, "localhost", ports.mqtt_tcp_port, APPNAME);
         client.listen = () => {
+          console.log("Listening!!");
           client.onTriggerMsg("browse", async (payload) => {
             try {
               const filepath = await new Promise((resolve, reject) => {
@@ -229,7 +231,7 @@ const init = (electron, ports, defaultRunningPlugins=[], file=undefined, show=tr
 
         electron._autoUpdater.on('update-downloaded', function (info) {
           dialog.showMessageBox(win, {
-            title: "MicroDrop Auto Updater",
+            title: "SciCAD Auto Updater",
             message: `Auto updating to version: ${info.version} on quit`
           });
         });
