@@ -1,6 +1,6 @@
 [submodule "Micropede"]
 	path = Micropede
-	url = https://github.com/sci-bots/Micropede.git
+	url = https://github.com/The-Brainery/Micropede.git
 [submodule "yac"]
 	path = yac
-	url = https://github.com/sci-bots/yac.git
+	url = https://github.com/The-Brainery/yac.git
