@@ -9,11 +9,11 @@ const request = require('request');
 const mqtt = require('mqtt');
 const _ = require('lodash');
 
-const MicroDropModels = require('@microdrop/models');
+const MicroDropModels = require('@scicad/models');
 const MicropedeAsync = require('@micropede/client/src/async.js');
 const {MicropedeClient, DumpStack} = require('@micropede/client/src/client.js');
 
-const APPNAME = 'microdrop';
+const APPNAME = 'scicad';
 
 const sendDefaults = (win, defaultRunningPlugins) => {
   win.webContents.on('did-finish-load', () => {
@@ -134,7 +134,7 @@ const loadSvg = (electron, ports, file=undefined) => {
       });
 
       ipcMain.on('three-object', async (event, data) => {
-        const micropede = new MicropedeAsync('microdrop', undefined, port);
+        const micropede = new MicropedeAsync('scicad', undefined, port);
         await micropede.putPlugin('device-model', 'three-object', JSON.parse(data));
         resolve('complete');
       });
@@ -210,7 +210,7 @@ const init = (electron, ports, defaultRunningPlugins=[], file=undefined, show=tr
           if (file !== undefined) {
             client.onNotifyMsg("step-ui-plugin", "connected", (a,b,topic) => {
               fs.readFile(file, 'utf8', (err, data) => {
-                const _topic = 'microdrop/file-launcher/state/last-opened-file';
+                const _topic = 'scicad/file-launcher/state/last-opened-file';
                 client.sendMessage(_topic, JSON.parse(data)).then((d) => {
                   // TODO: change client.client to client.mqtt or something
                   client.client.unsubscribe(topic);

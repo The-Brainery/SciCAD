@@ -4,10 +4,10 @@ const request = require('browser-request');
 
 const {MicropedeClient} = require('@micropede/client/src/client.js');
 
-if (!window.microdropPlugins)
-  window.microdropPlugins = new Map();
+if (!window.scicadPlugins)
+  window.scicadPlugins = new Map();
 
-const APPNAME = 'microdrop';
+const APPNAME = 'scicad';
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);

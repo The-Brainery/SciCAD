@@ -25,14 +25,14 @@ const asyncTimer = (time) => {
     setTimeout(() => resolve(), time);
   });
 }
-let microdrop;
+let scicad;
 
 describe('MicroDrop', async function() {
   this.timeout(10000);
 
   before(async () => {
     await MicroDrop(electron, PORTS, undefined, false, true);
-    microdrop = new MicropedeAsync('microdrop', 'localhost', 1884);
+    scicad = new MicropedeAsync('scicad', 'localhost', 1884);
 
     await new Promise((resolve, reject) => {
       electron.ipcMain.on('device-model-ready', function() {
@@ -51,8 +51,8 @@ describe('MicroDrop', async function() {
 
     it('clear loaded device', async function() {
       this.timeout(10000);
-      await microdrop.putPlugin('device-model', 'three-object', []);
-      var arr = await microdrop.getState('device-model', 'three-object');
+      await scicad.putPlugin('device-model', 'three-object', []);
+      var arr = await scicad.getState('device-model', 'three-object');
       return assert.equal(arr.length, 0);
     });
 
@@ -60,13 +60,13 @@ describe('MicroDrop', async function() {
         this.timeout(10000);
         // XXX: Using timer to ensure electron app is ready
         var device = require(DEFAULT_DEVICE_JSON);
-        await microdrop.putPlugin('device-model', 'three-object', device, 5000);
-        var objects = await microdrop.getState('device-model', 'three-object');
+        await scicad.putPlugin('device-model', 'three-object', device, 5000);
+        var objects = await scicad.getState('device-model', 'three-object');
         return assert.equal(objects.length, DEFAULT_DEVICE_LENGTH);
     });
 
     it('get neighbours', async function() {
-      var n1 = (await microdrop.triggerPlugin('device-model',
+      var n1 = (await scicad.triggerPlugin('device-model',
         'get-neighbouring-electrodes', {electrodeId: 'electrode000'})).response;
       assert.deepEqual(n1, ELECTRODE000_NEIGHBOURS);
     });
@@ -75,19 +75,19 @@ describe('MicroDrop', async function() {
 
   describe('Electrodes', async function() {
     it('clear active electrodes', async function() {
-      // await microdrop.electrodes.putActiveElectrodes([]);
-      await microdrop.putPlugin('electrodes-model', 'active-electrodes', []);
-      var arr = await microdrop.getState('electrodes-model', 'active-electrodes');
-      // var arr = await microdrop.electrodes.activeElectrodes();
+      // await scicad.electrodes.putActiveElectrodes([]);
+      await scicad.putPlugin('electrodes-model', 'active-electrodes', []);
+      var arr = await scicad.getState('electrodes-model', 'active-electrodes');
+      // var arr = await scicad.electrodes.activeElectrodes();
       assert.equal(arr.length, 0);
     });
 
     it('put active electrodes', async function() {
-      // await microdrop.electrodes.putActiveElectrodes(['electrode000', 'electrode001']);
-      await microdrop.putPlugin('electrodes-model', 'active-electrodes',
+      // await scicad.electrodes.putActiveElectrodes(['electrode000', 'electrode001']);
+      await scicad.putPlugin('electrodes-model', 'active-electrodes',
         ['electrode000', 'electrode001']);
-      // var arr = await microdrop.electrodes.activeElectrodes();
-      var arr = await microdrop.getState('electrodes-model',
+      // var arr = await scicad.electrodes.activeElectrodes();
+      var arr = await scicad.getState('electrodes-model',
         'active-electrodes');
       assert.equal(arr.length, 2);
     });
@@ -96,41 +96,41 @@ describe('MicroDrop', async function() {
 
   describe('Routes', async function() {
     it('clear routes', async function() {
-      // await microdrop.routes.putRoutes([]);
-      await microdrop.putPlugin('routes-model', 'routes', []);
-      // var arr = await microdrop.routes.routes();
-      var arr = await microdrop.getState('routes-model', 'routes');
+      // await scicad.routes.putRoutes([]);
+      await scicad.putPlugin('routes-model', 'routes', []);
+      // var arr = await scicad.routes.routes();
+      var arr = await scicad.getState('routes-model', 'routes');
       assert.equal(arr.length, 0);
     });
 
     it('add route', async function() {
-      // await microdrop.routes.putRoute(ROUTE);
-      await microdrop.putPlugin('routes-model', 'route', ROUTE);
-      // var arr = await microdrop.routes.routes();
-      var arr = await microdrop.getState('routes-model', 'routes');
+      // await scicad.routes.putRoute(ROUTE);
+      await scicad.putPlugin('routes-model', 'route', ROUTE);
+      // var arr = await scicad.routes.routes();
+      var arr = await scicad.getState('routes-model', 'routes');
       assert.equal(arr.length, 1);
     });
 
     it('compute electrodes', async function() {
-      // var route = (await microdrop.routes.routes())[0];
-      var route = (await microdrop.getState('routes-model', 'routes'))[0];
-      // var ids = (await microdrop.device.electrodesFromRoute(route)).ids;
-      var ids = (await microdrop.triggerPlugin('device-model',
+      // var route = (await scicad.routes.routes())[0];
+      var route = (await scicad.getState('routes-model', 'routes'))[0];
+      // var ids = (await scicad.device.electrodesFromRoute(route)).ids;
+      var ids = (await scicad.triggerPlugin('device-model',
         'electrodes-from-routes', {routes: [route]})).response[0].ids
       assert.deepEqual(ids,COMPUTED_ROUTE);
     });
 
     it('execute', async function() {
-      // await microdrop.electrodes.putActiveElectrodes([]);
-      await microdrop.putPlugin('electrodes-model', 'active-electrodes', []);
-      // var route = (await microdrop.routes.routes())[0];
-      var route = (await microdrop.getState('routes-model', 'routes'))[0];
+      // await scicad.electrodes.putActiveElectrodes([]);
+      await scicad.putPlugin('electrodes-model', 'active-electrodes', []);
+      // var route = (await scicad.routes.routes())[0];
+      var route = (await scicad.getState('routes-model', 'routes'))[0];
       route['transition-duration-seconds'] = 0.1;
-      // await microdrop.routes.execute([route], -1);
-      await microdrop.triggerPlugin('routes-model', 'execute',
+      // await scicad.routes.execute([route], -1);
+      await scicad.triggerPlugin('routes-model', 'execute',
         {routes: [route]}, -1);
-      // var activeElectrodes = await microdrop.electrodes.activeElectrodes();
-      var activeElectrodes = await microdrop.getState('electrodes-model',
+      // var activeElectrodes = await scicad.electrodes.activeElectrodes();
+      var activeElectrodes = await scicad.getState('electrodes-model',
         'active-electrodes');
       assert.deepEqual(activeElectrodes,[_.last(COMPUTED_ROUTE)]);
     });
@@ -142,7 +142,7 @@ describe('MicroDrop', async function() {
   //   // it('get process plugins', async function(){
   //   //
   //   //   const expected = _.map(require('./plugins.json')['processPlugins'], "name");
-  //   //   var plugins = await microdrop.pluginManager.getProcessPlugins();
+  //   //   var plugins = await scicad.pluginManager.getProcessPlugins();
   //   //   assert.deepEqual(_.map(plugins, 'name'), expected);
   //   // });
   //

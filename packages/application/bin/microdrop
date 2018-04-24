@@ -38,7 +38,7 @@ const argv = require('yargs')
     console.log(await MicroDrop.dump(electron, ports));
     process.exit();
   })
-  .command('launch [file]', 'launch microdrop', () => {}, async (argv) => {
+  .command('launch [file]', 'launch scicad', () => {}, async (argv) => {
     MicroDrop(electron, Ports(argv), argv.withPlugins, argv.file);
   })
   .command('load-device <file>', 'load device file', () => {}, async (argv) => {

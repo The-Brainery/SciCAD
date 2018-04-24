@@ -10,7 +10,7 @@ const MicropedeAsync = require('@micropede/client/src/async');
 
 const console = new Console(process.stdout, process.stderr);
 
-const APPNAME = 'microdrop';
+const APPNAME = 'scicad';
 const CLIENTNAME = 'VersionManager';
 const HTTP_PORT = 3000;
 const MQTT_TCP_PORT = 1884;
@@ -55,7 +55,7 @@ module.exports.InitVersionManager = (server, options={}) => {
   };
 
   manager.validateProcotol = (storage) => {
-    const rep = (s) => s.replace("microdrop/","").replace("/state/version", "");
+    const rep = (s) => s.replace("scicad/","").replace("/state/version", "");
     let versionsMsgs = _.filter(storage, (v,k)=>_.includes(k,"/version"));
     let versions = _.map(versionsMsgs, (msg) => {
       return {name: rep(msg.topic), version: msg.payload}
@@ -101,7 +101,7 @@ module.exports.InitVersionManager = (server, options={}) => {
 
 
   server.post('/validate-file', (req, res) => {
-    /* Validate filedata is compatible with current microdrop version */
+    /* Validate filedata is compatible with current scicad version */
     try {
       let storage = req.body;
       manager.validateProcotol(storage);
@@ -156,8 +156,8 @@ module.exports.InitVersionManager = (server, options={}) => {
         if (k == `${storageKeyPrefix}/version`) return;
         let state = storageFile[k].payload;
         let payload = {state, storageVersion, pluginVersion};
-        const microdrop = new MicropedeAsync(APPNAME, undefined, port);
-        let d = await microdrop.triggerPlugin(name, 'update-version', payload);
+        const scicad = new MicropedeAsync(APPNAME, undefined, port);
+        let d = await scicad.triggerPlugin(name, 'update-version', payload);
         stats.push(d.status == "success");
         responses[k] = {key: k, val: d.response};
       }

@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@microdrop/ui-plugin@^1.1.64":
+"@scicad/ui-plugin@^1.1.64":
   version "1.1.66"
-  resolved "https://registry.yarnpkg.com/@microdrop/ui-plugin/-/ui-plugin-1.1.66.tgz#f545a55894eda1b4cc0f6da856e5b7e241a88a6b"
+  resolved "https://registry.yarnpkg.com/@scicad/ui-plugin/-/ui-plugin-1.1.66.tgz#f545a55894eda1b4cc0f6da856e5b7e241a88a6b"
   dependencies:
     "@micropede/client" "0.0.38"
     browser-request "^0.3.3"

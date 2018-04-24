@@ -8,9 +8,9 @@
     "test": "npm run --prefix packages/application test",
     "add:defaults": " git add **/yarn.lock",
     "upgrade:micropede": "lerna exec -- ncu -u @micropede/client @micropede/broker",
-    "upgrade:yac": "lerna exec --scope=@microdrop/application -- yarn run upgrade:yac"
+    "upgrade:yac": "lerna exec --scope=@scicad/application -- yarn run upgrade:yac"
   },
-  "repository": "git+https://github.com/Lucaszw/microdrop-3.git",
+  "repository": "git+https://github.com/The-Brainery/SciCAD.git",
   "keywords": [
     "MicroDrop",
     "Web UI"
@@ -18,10 +18,10 @@
   "author": "Sci-Bots",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/Lucaszw/microdrop-3/issues"
+    "url": "https://github.com/The-Brainery/SciCAD/issues"
   },
-  "homepage": "https://github.com/Lucaszw/microdrop-3#readme",
-  "name": "microdrop-3",
+  "homepage": "https://github.com/The-Brainery/SciCAD#readme",
+  "name": "SciCAD",
   "main": "lerna.json",
   "devDependencies": {
     "lerna": "^2.9.0"

@@ -21,28 +21,28 @@ const yac = require('@yac/api');
 const Broker = require('@micropede/broker/src/index.js');
 const {MicropedeClient, GetReceiver, DumpStack} = require('@micropede/client/src/client.js');
 const MicropedeAsync = require('@micropede/client/src/async.js');
-const MicroDropUI = require('@microdrop/ui/index.js');
-const VersionInfo = require('@microdrop/version-info');
-const FindUserDefinedPlugins = require('../utils/find-microdrop-plugins.js');
+const MicroDropUI = require('@scicad/ui/index.js');
+const VersionInfo = require('@scicad/version-info');
+const FindUserDefinedPlugins = require('../utils/find-scicad-plugins.js');
 
 const env = module.exports.environment;
 const version = module.exports.version;
 
 const console = new Console(process.stdout, process.stderr);
 
-const APPNAME = 'microdrop';
+const APPNAME = 'scicad';
 
 class WebServer extends MicropedeClient {
   constructor(broker, ports, storage, defaultRunningPlugins=[]) {
     if (storage == undefined) storage = window.localStorage;
     // Add key to local storage that tracks ui plugins:
     let firstLoad = false;
-    if (storage.getItem('microdrop:plugins') == null) {
+    if (storage.getItem('scicad:plugins') == null) {
       firstLoad = true;
       WebServer.initPlugins(storage);
     }
 
-    super('microdrop', env.host, ports.mqtt_tcp_port, undefined, version);
+    super('scicad', env.host, ports.mqtt_tcp_port, undefined, version);
     Object.assign(this, this.ExpressServer());
     this.use(cors({
       'origin': '*',
@@ -113,7 +113,7 @@ class WebServer extends MicropedeClient {
     let storage = this.storage || window.localStorage;
 
     // Terminate zombies processes from prev yac instance:
-    let prevPids = storage.getItem('microdrop:pids');
+    let prevPids = storage.getItem('scicad:pids');
 
     if (prevPids) {
       let children = JSON.parse(prevPids);
@@ -130,7 +130,7 @@ class WebServer extends MicropedeClient {
           });
         } catch (e) {}
       }
-      storage.setItem('microdrop:pids', JSON.stringify({}));
+      storage.setItem('scicad:pids', JSON.stringify({}));
     }
 
     // Start yac dashboard
@@ -150,7 +150,7 @@ class WebServer extends MicropedeClient {
       });
 
       let pids = {};
-      let prevPids = JSON.parse(storage.getItem('microdrop:pids') || '{}');
+      let prevPids = JSON.parse(storage.getItem('scicad:pids') || '{}');
       // Fetch startime for each child process id
       for (let c of [...children]) {
         try {
@@ -173,7 +173,7 @@ class WebServer extends MicropedeClient {
         }
       }
 
-      storage.setItem('microdrop:pids', JSON.stringify(pids));
+      storage.setItem('scicad:pids', JSON.stringify(pids));
     }, 1500);
 
     this.findPlugins();
@@ -186,7 +186,7 @@ class WebServer extends MicropedeClient {
     this.get('/mqtt-ws-port',  (_, res) => {res.send(`${this.ports.mqtt_ws_port}`)});
     this.get('/storage-clean', (_, res) => {res.send(this.storageClean())});
     this.get('/storage-raw', (_, res) => {res.send(JSON.stringify(this.storage))});
-    this.get('/plugins.json', (_,res) => {res.send(this.storage.getItem('microdrop:plugins'))})
+    this.get('/plugins.json', (_,res) => {res.send(this.storage.getItem('scicad:plugins'))})
     this.get('/web-plugins.json', (_, res) => {res.send(this.WebPlugins())});
     this.get('/fetch-file', (req, res) => {res.send(this.fetchFile(req))});
     this.get('/open-device', (req, res) => {
@@ -256,7 +256,7 @@ class WebServer extends MicropedeClient {
     });
 
     this.post('/set-state', (req, res) => {
-      /* Sets state of microdrop directly via local storage */
+      /* Sets state of scicad directly via local storage */
       const LABEL = 'webserver:set-state';
       try {
         // Parse request
@@ -335,7 +335,7 @@ class WebServer extends MicropedeClient {
 
   loadStorage(content) {
     _.each(content, (v,k) => {
-      if (_.includes(k, 'microdrop!!')) {
+      if (_.includes(k, 'scicad!!')) {
         this.storage.setItem(k,v);
       }
     });
@@ -381,13 +381,13 @@ class WebServer extends MicropedeClient {
       }
 
       // Add plugin, and write to plugins.json
-      let pluginData = JSON.parse(storage.getItem('microdrop:plugins'));
+      let pluginData = JSON.parse(storage.getItem('scicad:plugins'));
       const webPlugins = _.get(pluginData, "webPlugins") || {};
 
       if (!(pluginDir in webPlugins )) {
         let state = "disabled";
 
-        if (_.includes(env.defaultEnabled, `@microdrop/${pluginName}`) ||
+        if (_.includes(env.defaultEnabled, `@scicad/${pluginName}`) ||
             _.includes(env.defaultEnabled, pluginName)) {
           state = "enabled";
         }
@@ -400,7 +400,7 @@ class WebServer extends MicropedeClient {
           data: packageData
         };
 
-        this.storage.setItem("microdrop:plugins", JSON.stringify(pluginData));
+        this.storage.setItem("scicad:plugins", JSON.stringify(pluginData));
       }
 
     } catch (e) {
@@ -412,7 +412,7 @@ class WebServer extends MicropedeClient {
   onAddPluginPath(payload) {
     const LABEL ='web-server:add-plugin-path';
     try {
-      const pluginData = JSON.parse(this.storage.getItem("microdrop:plugins"));
+      const pluginData = JSON.parse(this.storage.getItem("scicad:plugins"));
       let pluginPath = path.resolve(payload.path);
 
       // Retrieve Search Paths:
@@ -429,7 +429,7 @@ class WebServer extends MicropedeClient {
       pluginData.searchPaths = [...searchDirectories];
 
       // Save plugin data:
-      this.storage.setItem("microdrop:plugins", JSON.stringify(pluginData));
+      this.storage.setItem("scicad:plugins", JSON.stringify(pluginData));
 
       // Find Plugins:
       this.findPlugins();
@@ -445,7 +445,7 @@ class WebServer extends MicropedeClient {
   removePluginPath(payload) {
     const LABEL = 'web-server:remove-plugin-path';
     try {
-      const pluginData = JSON.parse(this.storage.getItem("microdrop:plugins"));
+      const pluginData = JSON.parse(this.storage.getItem("scicad:plugins"));
       const pluginPath = path.resolve(payload.path);
 
       // Remove all plugins along path:
@@ -463,7 +463,7 @@ class WebServer extends MicropedeClient {
       }
 
       // Write to file
-      this.storage.setItem("microdrop:plugins", JSON.stringify(pluginData));
+      this.storage.setItem("scicad:plugins", JSON.stringify(pluginData));
       this.findPlugins();
       return this.notifySender(payload, pluginData, "remove-plugin-path");
     } catch (e) {
@@ -477,7 +477,7 @@ class WebServer extends MicropedeClient {
     try {
       // Get plugin data
       const plugin = payload;
-      const pluginData = JSON.parse(this.storage.getItem("microdrop:plugins"));
+      const pluginData = JSON.parse(this.storage.getItem("scicad:plugins"));
 
       let plugins;
       if (plugin.data.type == 'ui') plugins = pluginData.webPlugins;
@@ -491,7 +491,7 @@ class WebServer extends MicropedeClient {
 
       // Update plugin data
       plugins[plugin.path].state = plugin.state;
-      this.storage.setItem("microdrop:plugins", JSON.stringify(pluginData));
+      this.storage.setItem("scicad:plugins", JSON.stringify(pluginData));
 
       return this.notifySender(payload, pluginData, "update-plugin-state");
     } catch (e) {
@@ -502,11 +502,11 @@ class WebServer extends MicropedeClient {
 
   onPluginFound(payload){
     const pluginPath = payload.plugin_path;
-    const microdropFile = path.join(pluginPath, "microdrop.json");
+    const scicadFile = path.join(pluginPath, "scicad.json");
 
-    /* Read microdrop.json file found at path*/
-    if (!fs.existsSync(microdropFile)) return false;
-    const pluginData = JSON.parse(fs.readFileSync(microdropFile, 'utf8'));
+    /* Read scicad.json file found at path*/
+    if (!fs.existsSync(scicadFile)) return false;
+    const pluginData = JSON.parse(fs.readFileSync(scicadFile, 'utf8'));
 
     // Check if plugin is a ui plugin:
     if (pluginData.type == "ui") {
@@ -543,7 +543,7 @@ class WebServer extends MicropedeClient {
     return app;
   }
   WebPlugins() {
-    const pluginData = JSON.parse(this.storage.getItem("microdrop:plugins"));
+    const pluginData = JSON.parse(this.storage.getItem("scicad:plugins"));
     const webPlugins = _.get(pluginData, "webPlugins") || {};
     for (const [pluginDir, plugin] of Object.entries(webPlugins)) {
       const parentDir = path.resolve(pluginDir, "..");
@@ -556,7 +556,7 @@ class WebServer extends MicropedeClient {
     const pluginData = new Object();
     pluginData.webPlugins = new Object();
     pluginData.searchPaths = new Array();
-    storage.setItem('microdrop:plugins', JSON.stringify(pluginData));
+    storage.setItem('scicad:plugins', JSON.stringify(pluginData));
   }
 }
 
@@ -572,7 +572,7 @@ module.exports.init = (ports, defaultRunningPlugins=[]) => {
   window.addEventListener('error', function(e) {
       console.error(e.message);
   });
-  const broker = new Broker('microdrop',ports.mqtt_ws_port, ports.mqtt_tcp_port);
+  const broker = new Broker('scicad',ports.mqtt_ws_port, ports.mqtt_tcp_port);
 
   broker.on('broker-ready', () => {
     const webServer = new WebServer(broker, ports, undefined, defaultRunningPlugins);

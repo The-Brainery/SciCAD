@@ -1,3 +1,3 @@
-# @microdrop/ui-plugin
+# @scicad/ui-plugin
 
-Parent class for microdrop ui plugins
+Parent class for scicad ui plugins

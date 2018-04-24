@@ -3,7 +3,7 @@
 !define ZIPFILE "MicroDrop.7z"
 !define DIRNAME "MicroDrop"
 
-InstallDir "$PROFILE\microdrop"
+InstallDir "$PROFILE\scicad"
 DirText "Choose a folder in which to install"
 LicenseData "license.rtf"
 

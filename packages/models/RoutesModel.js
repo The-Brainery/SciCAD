@@ -16,7 +16,7 @@ window.addEventListener('error', function(e) {
     console.error(e.message);
 });
 
-const APPNAME = 'microdrop';
+const APPNAME = 'scicad';
 
 const RoutesSchema = {
   type: "object",
@@ -73,7 +73,7 @@ class RoutesModel extends MicropedeClient {
   }
 
   // ** Getters and Setters **
-  get channel() {return "microdrop/routes-data-controller";}
+  get channel() {return "scicad/routes-data-controller";}
   get filepath() {return __dirname;}
   get isPlugin() {return true}
 
@@ -127,10 +127,10 @@ class RoutesModel extends MicropedeClient {
       const len = route.path.length;
 
       let numRepeats;
-      const microdrop = new MicropedeAsync(APPNAME, 'localhost', this.port);
+      const scicad = new MicropedeAsync(APPNAME, 'localhost', this.port);
 
       // Check if route contains a loop before continuing
-      const ids = (await microdrop.triggerPlugin('device-model',
+      const ids = (await scicad.triggerPlugin('device-model',
         'electrodes-from-routes', {routes: [route]})).response[0].ids;
 
       if (ids[0] != _.last(ids)) {
@@ -222,10 +222,10 @@ class RoutesModel extends MicropedeClient {
       if (!validate(payload)) throw(_.map(validate.errors, (e)=>JSON.stringify(e)));
       var route = _.omit(payload, "__head__");
 
-      const microdrop = new MicropedeAsync(APPNAME, 'localhost', this.port);
+      const scicad = new MicropedeAsync(APPNAME, 'localhost', this.port);
       // Validate path by checking if electrodesFromRoutes throws error
-      // var e = await microdrop.device.electrodesFromRoute(route);
-      var e = (await microdrop.triggerPlugin('device-model',
+      // var e = await scicad.device.electrodesFromRoute(route);
+      var e = (await scicad.triggerPlugin('device-model',
         'electrodes-from-routes', {routes: [route]}))[0];
 
       // Get previously stored routes (if failure then set to empty array)
@@ -243,9 +243,9 @@ class RoutesModel extends MicropedeClient {
         routes.push(route);
       }
 
-      // Update state of microdrop
-      // routes = await microdrop.routes.putRoutes(routes);
-      routes = await microdrop.putPlugin('routes-model', 'routes', routes);
+      // Update state of scicad
+      // routes = await scicad.routes.putRoutes(routes);
+      routes = await scicad.putPlugin('routes-model', 'routes', routes);
       return this.notifySender(payload, {routes, route}, 'route');
     } catch (e) {
       return this.notifySender(payload, DumpStack(LABEL, e), 'route', 'failed');
@@ -278,8 +278,8 @@ class RoutesModel extends MicropedeClient {
       await wait(interval*1000.0);
 
       const {active, remaining} = ActiveElectrodesAtTime(this.seq, currentTime);
-      const microdrop = new MicropedeAsync(APPNAME, 'localhost', port);
-      await microdrop.putPlugin('electrodes-model', 'active-electrodes', {
+      const scicad = new MicropedeAsync(APPNAME, 'localhost', port);
+      await scicad.putPlugin('electrodes-model', 'active-electrodes', {
         'active-electrodes': _.map(active, "id")
       });
 
@@ -308,9 +308,9 @@ function ActiveElectrodesAtTime(elecs, t) {
 }
 
 async function ActiveElectrodeIntervals(r, port) {
-  const microdrop = new MicropedeAsync(APPNAME, 'localhost', port);
+  const scicad = new MicropedeAsync(APPNAME, 'localhost', port);
   // Get electrode intervals based on a routes time properties
-  const seq = (await microdrop.triggerPlugin('device-model',
+  const seq = (await scicad.triggerPlugin('device-model',
       'electrodes-from-routes', {routes: [r]}, 1001)).response[0];
 
   // ids, uuid

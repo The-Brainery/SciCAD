@@ -5,7 +5,7 @@ const _ = require('lodash');
 const {MicropedeClient} = require('@micropede/client/src/client.js');
 const MicropedeAsync = require('@micropede/client/src/async.js');
 
-const APPNAME = 'microdrop';
+const APPNAME = 'scicad';
 const ajv = new Ajv({useDefaults: true});
 
 const StepMixins = {};
@@ -116,11 +116,11 @@ const Step = (state, index, options) => {
 }
 
 StepMixins.getAvailablePlugins = async function() {
-  const microdrop = new MicropedeAsync(APPNAME, undefined, this.port);
+  const scicad = new MicropedeAsync(APPNAME, undefined, this.port);
   let availablePlugins = [];
   for (let [i, plugin] of this.plugins.entries()) {
     try {
-      let pong = await microdrop.triggerPlugin(plugin, 'ping', {}, 200);
+      let pong = await scicad.triggerPlugin(plugin, 'ping', {}, 200);
       if (pong) availablePlugins.push(plugin);
     } catch (e) {
       console.error(e)
@@ -135,14 +135,14 @@ StepMixins.toggleExecuteButton = async function(btn, state) {
 }
 
 StepMixins.executeSteps = async function(btn) {
-  let microdrop;
+  let scicad;
   // Fetch all subscriptions including the term execute
 
   if (btn.classList.contains(state2)) {
     // TODO: Should call a 'stop' trigger on all executable plugins
     this.running = false;
-    microdrop = new MicropedeAsync(APPNAME, undefined, this.port);
-    await microdrop.triggerPlugin('routes-model', 'stop', {});
+    scicad = new MicropedeAsync(APPNAME, undefined, this.port);
+    await scicad.triggerPlugin('routes-model', 'stop', {});
     return;
   }
 
@@ -156,8 +156,8 @@ StepMixins.executeSteps = async function(btn) {
   let executablePlugins = [];
 
   await Promise.all(_.map(availablePlugins, async (p) => {
-    microdrop = new MicropedeAsync(APPNAME, undefined, this.port);
-    let subs = await microdrop.getSubscriptions(p, 500);
+    scicad = new MicropedeAsync(APPNAME, undefined, this.port);
+    let subs = await scicad.getSubscriptions(p, 500);
     subs = _.filter(subs, (s)=>_.includes(s, "execute"));
     if (subs.length > 0 ) executablePlugins.push(p);
   }));
@@ -171,16 +171,16 @@ StepMixins.executeSteps = async function(btn) {
 
     // Wait for all executable plugins to finish
     await Promise.all(_.map(executablePlugins, (p) => {
-      //XXX: Right now microdrop async clients can only handle one task
+      //XXX: Right now scicad async clients can only handle one task
       // at a time (so need to have different client for each executable)
-      microdrop = new MicropedeAsync(APPNAME, undefined, this.port);
-      return microdrop.triggerPlugin(p, 'execute', {}, -1);
+      scicad = new MicropedeAsync(APPNAME, undefined, this.port);
+      return scicad.triggerPlugin(p, 'execute', {}, -1);
     }));
 
   }
 
   this.running = false;
-  await microdrop.triggerPlugin('routes-model', 'stop', {});
+  await scicad.triggerPlugin('routes-model', 'stop', {});
   console.log("Done!");
 }
 
@@ -385,8 +385,8 @@ StepMixins.deleteStep = async function(index, step, e) {
 
 StepMixins.getStateForPlugin = async function(pluginName, schema) {
   // Get all subscriptions for the schema
-  const microdrop = new MicropedeAsync(APPNAME, undefined, this.port);
-  let subs = await microdrop.getSubscriptions(pluginName, 300);
+  const scicad = new MicropedeAsync(APPNAME, undefined, this.port);
+  let subs = await scicad.getSubscriptions(pluginName, 300);
 
   // Filter subscriptions for those that match a put endpoint
   let puttableProperties = _.compact(_.map(subs, (s) => {
@@ -433,7 +433,7 @@ StepMixins.getStateForPlugin = async function(pluginName, schema) {
 StepMixins.createStep = async function (e) {
   let state = {};
 
-  // Fetch the entire microdrop state
+  // Fetch the entire scicad state
   await Promise.all(_.map(this.plugins, async (plugin) => {
     try {
       let schema    = await this.getSchema(plugin);

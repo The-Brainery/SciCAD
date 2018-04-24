@@ -12,16 +12,16 @@ const Sortable = require('sortablejs');
 const yo = require('yo-yo');
 const _ = require('lodash');
 
-const UIPlugin = require('@microdrop/ui-plugin');
-const {TabMenu, select, unselect} = require('@microdrop/ui-mixins/src/TabMenu.js');
+const UIPlugin = require('@scicad/ui-plugin');
+const {TabMenu, select, unselect} = require('@scicad/ui-mixins/src/TabMenu.js');
 const MicropedeAsync = require('@micropede/client/src/async.js');
 const {DumpStack} = require('@micropede/client/src/client.js');
-const APPNAME = 'microdrop';
+const APPNAME = 'scicad';
 
-const JsonEditorMixins = require('@microdrop/jsoneditor-mixins');
+const JsonEditorMixins = require('@scicad/jsoneditor-mixins');
 const StepMixins = require('./step-mixins');
 
-const {FindPath, FindPaths} = require('@microdrop/helpers');
+const {FindPath, FindPaths} = require('@scicad/helpers');
 _.findPath  = (...args) => {return FindPath(...args)}
 _.findPaths = (...args) => {return FindPaths(...args)}
 
@@ -123,13 +123,13 @@ class StepUIPlugin extends UIPlugin {
   }
 
   async openFile(e) {
-    /* Open a file-browser window to select a microdrop file */
+    /* Open a file-browser window to select a scicad file */
     const handler = (e) => {
       const f = e.target.files[0];
       const ext = f.name.split(".").pop().toLowerCase();
 
-      if (ext !== 'microdrop') {
-        alert("Invalid extension, file must be .microdrop");
+      if (ext !== 'scicad') {
+        alert("Invalid extension, file must be .scicad");
         return;
       }
       const reader = new FileReader();

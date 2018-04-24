@@ -24,18 +24,18 @@ const DEFAULT_LAYOUT = {
 };
 
 function init() {
-  // Add all window objects that extend UIPlugin to microdropPlugin list
+  // Add all window objects that extend UIPlugin to scicadPlugin list
   for (const [key, val] of Object.entries(window)){
     if (!val) continue;
     if (!val.prototype) continue;
     if (Object.getPrototypeOf(val).name == "UIPlugin") {
-      window.microdropPlugins.set(key, val);
+      window.scicadPlugins.set(key, val);
     }
   }
 
-  // If microdropPlugins is not defined, alert the user to add a web plugin
+  // If scicadPlugins is not defined, alert the user to add a web plugin
   // via the plugin-manager webpage:
-  if (!window.microdropPlugins) {
+  if (!window.scicadPlugins) {
     alert(`
       No UI/Web Plugins found!
       Add them at "http://localhost:PORT/plugin-manager"
@@ -90,7 +90,7 @@ function init() {
   focusTracker = new PhosphorWidgets.FocusTracker();
 
   const setup = async () => {
-    for (const [pluginName,pluginClass] of microdropPlugins) {
+    for (const [pluginName,pluginClass] of scicadPlugins) {
       // const dock = docks[pluginClass.position()];
       const widget = await pluginClass.Widget(panel, focusTracker, PhosphorWidgets);
 
@@ -133,7 +133,7 @@ function init() {
       }
 
       // Fetch the layout, and replace widgetNames with widgetObjects
-      const layout = JSON.parse(localStorage.getItem("microdrop:layout"));
+      const layout = JSON.parse(localStorage.getItem("scicad:layout"));
       getChildren(layout.main);
       panel.restoreLayout(layout);
 
@@ -165,7 +165,7 @@ function init() {
       // Fetch layout, serialize it, and then save to local storage
       const layout = panel.saveLayout();
       getChildren(layout.main);
-      localStorage.setItem("microdrop:layout", JSON.stringify(layout));
+      localStorage.setItem("scicad:layout", JSON.stringify(layout));
       return layout;
     }
 
@@ -180,11 +180,11 @@ function init() {
         savePanels();
       } else {
         window.hasLaunched = true;
-        if ("microdrop:layout" in window.localStorage)
+        if ("scicad:layout" in window.localStorage)
           restorePanels()
         else {
           try {
-            localStorage.setItem('microdrop:layout', JSON.stringify(DEFAULT_LAYOUT));
+            localStorage.setItem('scicad:layout', JSON.stringify(DEFAULT_LAYOUT));
             restorePanels();
           } catch (e) {
             savePanels();
@@ -226,7 +226,7 @@ module.exports = () => {
         tag.onerror = () => {
           reject('failed to load');
           request('/reset', () => {
-            localStorage.removeItem('microdrop:layout');
+            localStorage.removeItem('scicad:layout');
             window.location.reload();
           });
         }

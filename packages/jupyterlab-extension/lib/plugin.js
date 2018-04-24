@@ -5,7 +5,7 @@ require('font-awesome/css/font-awesome.css');
 
 var _ = require('lodash');
 var $ = require('jquery');
-var MicroDropAsync = require('@microdrop/async/MicroDropAsync');
+var MicroDropAsync = require('@scicad/async/MicroDropAsync');
 var Mustache = require('mustache');
 var {Widget, Panel, FocusTracker} = require('@phosphor/widgets');
 var {ILayoutRestorer} = require('@jupyterlab/application');
@@ -16,8 +16,8 @@ var {MimeDocumentFactory} = require('@jupyterlab/docregistry');
 var StateListener = require('./StateListener.js');
 var UIPluginLauncher = require('./UIPluginLauncher.js');
 
-const MIME_TYPE = 'text/microdrop';
-const MIME_TYPES = ['text/microdrop', 'text/microdrop+json'];
+const MIME_TYPE = 'text/scicad';
+const MIME_TYPES = ['text/scicad', 'text/scicad+json'];
 const NAME = 'MicroDrop';
 
 const DIRTY_CLASS = 'jp-mod-dirty';
@@ -29,20 +29,20 @@ class MyFactory extends MimeDocumentFactory {
 }
 
 exports.default = [{
-  id: 'microdrop-ui-plugin',
+  id: 'scicad-ui-plugin',
   autoStart: true,
   requires: [ILauncher, ILayoutRestorer],
   activate: function(app, launcher, restorer) {
-    const command = 'microdrop-ui-plugin:open';
-    let launchTracker = new InstanceTracker({ namespace: 'microdrop:launcher' });
-    let docTracker = new InstanceTracker({ namespace: 'microdrop:document' });
+    const command = 'scicad-ui-plugin:open';
+    let launchTracker = new InstanceTracker({ namespace: 'scicad:launcher' });
+    let docTracker = new InstanceTracker({ namespace: 'scicad:document' });
 
     const manager = app.serviceManager;
     const registry = app.docRegistry;
     const filetype = {
       name: NAME,
       mimeTypes: MIME_TYPES,
-      extensions: ['.txt', '.microdrop']
+      extensions: ['.txt', '.scicad']
     };
 
     const createPanel = (id=null, url=null, name='UI Plugin Launcher') => {

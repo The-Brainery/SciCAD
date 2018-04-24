@@ -1,5 +1,5 @@
 {
-  "name": "@microdrop/file-launcher",
+  "name": "@scicad/file-launcher",
   "version": "0.0.0",
   "description": "Electron Application for File Registration",
   "main": "index.js",
@@ -19,7 +19,7 @@
     "electron-builder": "^19.55.2"
   },
   "build": {
-    "appId": "com.sci-bots.microdrop-launcher",
+    "appId": "com.sci-bots.scicad-launcher",
     "productName": "MicroDrop Launcher",
     "copyright": "Copyright © 2018 Sci-Bots",
     "nsis": {
@@ -27,7 +27,7 @@
       "perMachine": true
     },
     "fileAssociations": {
-      "ext": "microdrop"
+      "ext": "scicad"
     },
     "files": ["**/*"],
     "extraFiles": ["ImIncluded.txt"]

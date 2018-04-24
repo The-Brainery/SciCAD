@@ -2,11 +2,11 @@ const yo = require('yo-yo');
 const _ = require('lodash');
 
 const MicropedeAsync = require('@micropede/client/src/async.js');
-const UIPlugin = require('@microdrop/ui-plugin');
-const {TabMenu, select, unselect} = require('@microdrop/ui-mixins/src/TabMenu.js');
-const JsonEditorMixins = require('@microdrop/jsoneditor-mixins');
+const UIPlugin = require('@scicad/ui-plugin');
+const {TabMenu, select, unselect} = require('@scicad/ui-mixins/src/TabMenu.js');
+const JsonEditorMixins = require('@scicad/jsoneditor-mixins');
 
-const APPNAME = 'microdrop';
+const APPNAME = 'scicad';
 const GlobalSchema = {
   type: "object",
   properties: {

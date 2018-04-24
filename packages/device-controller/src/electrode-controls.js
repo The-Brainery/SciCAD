@@ -9,7 +9,7 @@ const yo = require('yo-yo');
 
 const MicropedeAsync = require('@micropede/client/src/async.js');
 const {MicropedeClient} = require('@micropede/client/src/client.js');
-const MicrodropHelpers = require('@microdrop/helpers');
+const MicrodropHelpers = require('@scicad/helpers');
 
 const SVGRenderer = require('./svg-renderer');
 
@@ -23,7 +23,7 @@ const SELECTED_COLOR = "rgb(120, 255, 168)";
 const DEFAULT_OFF_OPACITY  = 0.3;
 const DEFAULT_ON_OPACITY  = 0.3;
 
-const APPNAME = 'microdrop';
+const APPNAME = 'scicad';
 const DEFAULT_PORT = 8083;
 const DEFAULT_HOST = 'localhost';
 
@@ -87,8 +87,8 @@ class ElectrodeControls extends MicropedeClient {
     electrode.channel = channel;
     electrode.area = area;
 
-    const microdrop = new MicropedeAsync('microdrop', undefined, this.port);
-    await microdrop.putPlugin('device-model', 'three-object', this._threeObject);
+    const scicad = new MicropedeAsync('scicad', undefined, this.port);
+    await scicad.putPlugin('device-model', 'three-object', this._threeObject);
   }
 
   listen() {
@@ -348,8 +348,8 @@ class ElectrodeControls extends MicropedeClient {
     try {
       const electrodeObject = this.electrodeObjects[electrodeId];
       electrodeObject.on = true;
-      let microdrop = new MicropedeAsync(APPNAME, 'localhost', this.port);
-      await microdrop.triggerPlugin('electrodes-model', 'toggle-electrode',
+      let scicad = new MicropedeAsync(APPNAME, 'localhost', this.port);
+      await scicad.triggerPlugin('electrodes-model', 'toggle-electrode',
         {electrodeId, state: true});
     } catch (e) {
       // console.error(e);
@@ -360,10 +360,10 @@ class ElectrodeControls extends MicropedeClient {
 
     try {
       const electrodeObject = this.electrodeObjects[electrodeId];
-      let microdrop = new MicropedeAsync(APPNAME, 'localhost', this.port);
+      let scicad = new MicropedeAsync(APPNAME, 'localhost', this.port);
 
       electrodeObject.on = false;
-      await microdrop.triggerPlugin('electrodes-model', 'toggle-electrode',
+      await scicad.triggerPlugin('electrodes-model', 'toggle-electrode',
         {electrodeId: electrodeId, state: false}, 500);
     } catch (e) {
       // console.error(e);
@@ -373,11 +373,11 @@ class ElectrodeControls extends MicropedeClient {
   async move(dir='right') {
     try {
       if (!this.selectedElectrode) return;
-      let microdrop = new MicropedeAsync(APPNAME, 'localhost', this.port);
+      let scicad = new MicropedeAsync(APPNAME, 'localhost', this.port);
       const electrodeId = this.selectedElectrode.name;
       let neighbours;
 
-      neighbours = (await microdrop.triggerPlugin('device-model',
+      neighbours = (await scicad.triggerPlugin('device-model',
         'get-neighbouring-electrodes', {electrodeId}, 500)).response;
 
 
@@ -491,7 +491,7 @@ class ElectrodeControls extends MicropedeClient {
     if (event.target.uuid != event2.target.uuid) return;
 
     let activeElectrodes;
-    let microdrop = new MicropedeAsync(APPNAME, 'localhost', this.port);
+    let scicad = new MicropedeAsync(APPNAME, 'localhost', this.port);
     try {
       activeElectrodes = await this.getState('active-electrodes', 'electrodes-model');
     } catch (e) {

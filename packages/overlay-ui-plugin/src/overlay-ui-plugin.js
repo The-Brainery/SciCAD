@@ -3,7 +3,7 @@ const JSONEditor = require('jsoneditor');
 const generateName = require('sillyname');
 
 const yo = require('yo-yo');
-const UIPlugin = require('@microdrop/ui-plugin');
+const UIPlugin = require('@scicad/ui-plugin');
 
 class OverlayUIPlugin extends UIPlugin {
   constructor(element, focusTracker, ...args) {

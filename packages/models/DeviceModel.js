@@ -9,11 +9,11 @@ const _ = require('lodash');
 
 const MicropedeAsync = require('@micropede/client/src/async.js');
 const {MicropedeClient, DumpStack} = require('@micropede/client/src/client.js');
-const SVGRenderer = require('@microdrop/device-controller/src/svg-renderer');
+const SVGRenderer = require('@scicad/device-controller/src/svg-renderer');
 const ElectrodeControls =
-  require('@microdrop/device-controller/src/electrode-controls');
+  require('@scicad/device-controller/src/electrode-controls');
 
-const APPNAME = 'microdrop';
+const APPNAME = 'scicad';
 const DEFAULT_PPI = 96;
 const timeout = ms => new Promise(res => setTimeout(res, ms))
 
@@ -97,7 +97,7 @@ class DeviceModel extends MicropedeClient {
   }
 
   get isPlugin() {return true}
-  get channel() {return "microdrop/device"}
+  get channel() {return "scicad/device"}
   get filepath() {return __dirname;}
 
   async loadDefaultDevice(payload, params) {

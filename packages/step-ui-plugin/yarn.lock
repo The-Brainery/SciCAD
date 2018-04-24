@@ -2,26 +2,26 @@
 # yarn lockfile v1
 
 
-"@microdrop/helpers@^1.1.57":
+"@scicad/helpers@^1.1.57":
   version "1.1.57"
-  resolved "https://registry.yarnpkg.com/@microdrop/helpers/-/helpers-1.1.57.tgz#88bb457034f6a4a7978381dbf3928cd714077a2d"
+  resolved "https://registry.yarnpkg.com/@scicad/helpers/-/helpers-1.1.57.tgz#88bb457034f6a4a7978381dbf3928cd714077a2d"
   dependencies:
     detect-node "^2.0.3"
 
-"@microdrop/jsoneditor-mixins@^1.1.60":
+"@scicad/jsoneditor-mixins@^1.1.60":
   version "1.1.60"
-  resolved "https://registry.yarnpkg.com/@microdrop/jsoneditor-mixins/-/jsoneditor-mixins-1.1.60.tgz#d74ce62188b6d0f3107668aa37e6c81b14c59dbf"
+  resolved "https://registry.yarnpkg.com/@scicad/jsoneditor-mixins/-/jsoneditor-mixins-1.1.60.tgz#d74ce62188b6d0f3107668aa37e6c81b14c59dbf"
   dependencies:
-    "@microdrop/helpers" "^1.1.57"
-    "@microdrop/ui-mixins" "^1.1.58"
+    "@scicad/helpers" "^1.1.57"
+    "@scicad/ui-mixins" "^1.1.58"
     ajv "^6.4.0"
     jsoneditor "^5.14.1"
     lodash "^4.17.5"
     sha256 "^0.2.0"
 
-"@microdrop/ui-mixins@^1.1.58":
+"@scicad/ui-mixins@^1.1.58":
   version "1.1.58"
-  resolved "https://registry.yarnpkg.com/@microdrop/ui-mixins/-/ui-mixins-1.1.58.tgz#fe90d7a57c01084f628aa1dc3bb857da15f1828e"
+  resolved "https://registry.yarnpkg.com/@scicad/ui-mixins/-/ui-mixins-1.1.58.tgz#fe90d7a57c01084f628aa1dc3bb857da15f1828e"
   dependencies:
     bootstrap "^4.0.0"
     jquery "^3.3.1"
@@ -30,9 +30,9 @@
     popper.js "^1.14.1"
     yo-yo "^1.4.1"
 
-"@microdrop/ui-plugin@^1.1.60":
+"@scicad/ui-plugin@^1.1.60":
   version "1.1.60"
-  resolved "https://registry.yarnpkg.com/@microdrop/ui-plugin/-/ui-plugin-1.1.60.tgz#71e13c76b990fbaeb420f94a3cb78dff95b823b9"
+  resolved "https://registry.yarnpkg.com/@scicad/ui-plugin/-/ui-plugin-1.1.60.tgz#71e13c76b990fbaeb420f94a3cb78dff95b823b9"
   dependencies:
     "@micropede/client" "0.0.37"
     browser-request "^0.3.3"

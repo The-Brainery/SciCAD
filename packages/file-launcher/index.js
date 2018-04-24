@@ -15,7 +15,7 @@ function openFile(filepath) {
     var client  = mqtt.connect('mqtt://localhost:1884');
 
     client.on('connect', function () {
-      var topic = 'microdrop/file-launcher/state/last-opened-file';
+      var topic = 'scicad/file-launcher/state/last-opened-file';
 
       fs.readFile(filepath, 'utf8', function (err, data) {
         if (err) throw err;
@@ -35,7 +35,7 @@ function openFile(filepath) {
 app.on('ready', () => {
   eventObj.trigger('ready'); ready = true;
 
-  const filepath = _.filter(process.argv, (i) => _.includes(i, ".microdrop"))[0];
+  const filepath = _.filter(process.argv, (i) => _.includes(i, ".scicad"))[0];
   if (filepath) {
     // dialog.showMessageBox({message: filepath});
     openFile(filepath);

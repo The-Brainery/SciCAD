@@ -15,7 +15,7 @@ window.addEventListener('error', function(e) {
     console.error(e.message);
 });
 
-const APPNAME = 'microdrop';
+const APPNAME = 'scicad';
 
 const ElectrodeSchema = {
   type: "object",
@@ -109,14 +109,14 @@ class ElectrodesModel extends MicropedeClient {
 
   async execute(payload) {
     const LABEL = "<ElectrodesModel::execute>"; //console.log(LABEL);
-    const microdrop = new MicropedeAsync(APPNAME, undefined, this.port);
+    const scicad = new MicropedeAsync(APPNAME, undefined, this.port);
     try {
       const ids = payload['active-electrodes'];
       // const minDuration = await this.getState("min-duration");
       if (ids) {
         // Add electrodes to running route sequence:
         const triggerName = 'add-electrode-to-sequence';
-        await microdrop.triggerPlugin('routes-model', triggerName, {ids});
+        await scicad.triggerPlugin('routes-model', triggerName, {ids});
 
         // Call put endpoint
         await this.putActiveElectrodes({'active-electrodes': activeElectrodes});
@@ -184,10 +184,10 @@ class ElectrodesModel extends MicropedeClient {
       if (!_.isString(electrodeId)) throw("electrodeId should be string");
       if (!_.isBoolean(state)) throw("state should be bool");
 
-      const microdrop = new MicropedeAsync(APPNAME, 'localhost', this.port);
+      const scicad = new MicropedeAsync(APPNAME, 'localhost', this.port);
 
       // Get all connected electrodes based on the device object
-      const threeObject = await microdrop.getState('device-model', 'three-object');
+      const threeObject = await scicad.getState('device-model', 'three-object');
       const {channels, electrodes} = MapElectrodesAndChannels(threeObject);
       const electrodeChannel = electrodes[electrodeId];
       const connectedElectrodes = channels[electrodeChannel];
@@ -202,9 +202,9 @@ class ElectrodesModel extends MicropedeClient {
         activeElectrodes = _.uniq(_.without(activeElectrodes, ...connectedElectrodes));
       }
       // activeElectrodes =
-      //   await microdrop.electrodes.putActiveElectrodes(activeElectrodes);
+      //   await scicad.electrodes.putActiveElectrodes(activeElectrodes);
       activeElectrodes = (
-        await microdrop.putPlugin('electrodes-model', 'active-electrodes',
+        await scicad.putPlugin('electrodes-model', 'active-electrodes',
           {'active-electrodes': activeElectrodes})).response;
 
       return this.notifySender(payload, activeElectrodes, "toggle-electrode");

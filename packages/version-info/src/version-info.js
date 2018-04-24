@@ -9,7 +9,7 @@ const _ = require('lodash');
 const MicropedeClient = require('@micropede/client');
 const MicropedeAsync = require('@micropede/client/src/async');
 
-const APPNAME = 'microdrop';
+const APPNAME = 'scicad';
 
 const decodeStorage = (storage) => {
   let items = _.pickBy(storage, (v,k)=>{

@@ -5,8 +5,8 @@ require('font-awesome/css/font-awesome.css');
 
 var _ = require('lodash');
 var $ = require('jquery');
-var MicroDropAsync = require('@microdrop/async/MicroDropAsync');
-var StaterSaverUI = require('@microdrop/state-saver');
+var MicroDropAsync = require('@scicad/async/MicroDropAsync');
+var StaterSaverUI = require('@scicad/state-saver');
 var Mustache = require('mustache');
 var {Widget, Panel, FocusTracker} = require('@phosphor/widgets');
 var {ILayoutRestorer} = require('@jupyterlab/application');
@@ -15,7 +15,7 @@ var {ILauncher} = require('@jupyterlab/launcher');
 var {MimeDocumentFactory} = require('@jupyterlab/docregistry');
 
 const MIME_TYPE = 'text/plain';
-const MIME_TYPES = ['text/plain', 'text/microdrop+json', 'text/microdrop'];
+const MIME_TYPES = ['text/plain', 'text/scicad+json', 'text/scicad'];
 const NAME = 'MicroDrop';
 
 const DIRTY_CLASS = 'jp-mod-dirty';
@@ -48,8 +48,8 @@ class StateListener extends StaterSaverUI {
   }
   async isActive() {
     try {
-      const microdrop = new MicroDropAsync();
-      const activeFile = await microdrop.getState('state-listener', 'active-file', 200);
+      const scicad = new MicroDropAsync();
+      const activeFile = await scicad.getState('state-listener', 'active-file', 200);
       const thisFile = _.get(this.panel, 'context.path');
       return activeFile == thisFile;
     } catch (e) {
@@ -78,20 +78,20 @@ class StateListener extends StaterSaverUI {
     state = _.omit(state, ignore);
     let missingRoutes = [];
     for (const [plugin,props] of Object.entries(state)) {
-      const microdrop = new MicroDropAsync();
+      const scicad = new MicroDropAsync();
       // Get subscriptions for each plugin
       let subs;
-      try { subs = await microdrop.getSubscriptions(plugin, 200);
+      try { subs = await scicad.getSubscriptions(plugin, 200);
       } catch (e) { subs = []; }
       for (const [k,v] of Object.entries(props)) {
         // Check if a put route exists for the given key
-        if (_.includes(subs, `microdrop/put/${plugin}/${k}`)){
+        if (_.includes(subs, `scicad/put/${plugin}/${k}`)){
           let response;
           try {
             // XXX: Wrap message as object by default
             const msg = {};
             _.set(msg, k, v);
-            response = await microdrop.putPlugin(plugin, k, msg, 1000);
+            response = await scicad.putPlugin(plugin, k, msg, 1000);
           } catch (e) {
             // console.error(e);
           }

@@ -1,5 +1,5 @@
 {
-    "name": "@microdrop/dropbot-plugin",
+    "name": "@scicad/dropbot-plugin",
     "publishConfig": {
         "access": "public"
     },
@@ -8,14 +8,14 @@
     "license": "BSD-2-Clause",
     "keywords": [
         "yac-project",
-        "microdrop"
+        "scicad"
     ],
     "scripts": {
         "dev": "yac dev ../../Micropede/packages/python micropede",
         "build": "./node_modules/.bin/webpack"
     },
     "dependencies": {
-        "@microdrop/ui-plugin": "^1.1.67",
+        "@scicad/ui-plugin": "^1.1.67",
         "@micropede/client": "^0.0.39",
         "browser-request": "^0.3.3",
         "lodash": "^4.17.5",

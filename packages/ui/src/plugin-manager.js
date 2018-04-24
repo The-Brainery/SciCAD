@@ -3,7 +3,7 @@ const request = require('browser-request');
 const {MicropedeClient} = require('@micropede/client/src/client.js');
 const MicropedeAsync = require('@micropede/client/src/async.js');
 
-const APPNAME = 'microdrop';
+const APPNAME = 'scicad';
 const DEFAULT_HOST = 'localhost';
 const DEFAULT_PORT = 8083;
 
@@ -31,7 +31,7 @@ class PluginManager extends MicropedeClient {
     const micropede = new MicropedeAsync(this.appName, this.host, this.port);
     const data = await micropede.triggerPlugin('web-server', 'update-plugin-state', plugin);
     this.render(data.response);
-    localStorage.removeItem("microdrop:layout");
+    localStorage.removeItem("scicad:layout");
   }
 
   async browse(input, e) {

@@ -1,7 +1,7 @@
 const $ = require('jquery');
 const request = require('browser-request');
 
-const UIPlugin = require('@microdrop/ui-plugin/src/ui-plugin.js');
+const UIPlugin = require('@scicad/ui-plugin/src/ui-plugin.js');
 const {WrapData} = require('@micropede/client/src/client.js');
 
 class UIPluginManager extends UIPlugin {

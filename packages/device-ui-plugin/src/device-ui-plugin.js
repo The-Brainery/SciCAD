@@ -5,15 +5,15 @@ const Dat = require('dat.gui/build/dat.gui');
 const uuid = require('uuid/v4');
 const yo = require('yo-yo');
 
-const DeviceController = require('@microdrop/device-controller/src/device-controller');
+const DeviceController = require('@scicad/device-controller/src/device-controller');
 const MicropedeAsync = require('@micropede/client/src/async.js');
 const {MicropedeClient, DumpStack} = require('@micropede/client/src/client.js')
-const UIPlugin = require('@microdrop/ui-plugin');
+const UIPlugin = require('@scicad/ui-plugin');
 
 const {
   ParseSVGFromString,
   ConstructObjectsFromSVG
-} = require('@microdrop/device-controller/src/svg-renderer');
+} = require('@scicad/device-controller/src/svg-renderer');
 
 const DIRECTIONS = {LEFT: "left", UP: "up", DOWN: "down", RIGHT: "right"};
 window.MicropedeAsync = MicropedeAsync;
@@ -36,8 +36,8 @@ class DeviceUIPlugin extends UIPlugin {
     this.onStateMsg('web-server', 'first-load', async (firstLoad) => {
       if (firstLoad == true && loaded == false) {
         loaded = true;
-        const microdrop = new MicropedeAsync('microdrop', undefined, this.port);
-        await microdrop.triggerPlugin('device-model', 'load-default');
+        const scicad = new MicropedeAsync('scicad', undefined, this.port);
+        await scicad.triggerPlugin('device-model', 'load-default');
       }
     });
 
@@ -127,16 +127,16 @@ class DeviceUIPlugin extends UIPlugin {
   }
 
   contextMenuClicked(key, options) {
-    const microdrop = new MicropedeAsync('microdrop', undefined, this.port);
+    const scicad = new MicropedeAsync('scicad', undefined, this.port);
     switch (key) {
       case "changeDevice":
         this.changeDevice();
         break;
       case "clearElectrodes":
-        microdrop.putPlugin('electrodes-model', 'active-electrodes', []);
+        scicad.putPlugin('electrodes-model', 'active-electrodes', []);
         break;
       case "clearRoutes":
-        microdrop.putPlugin('routes-model', 'routes', []);
+        scicad.putPlugin('routes-model', 'routes', []);
         break;
       case "clearRoute":
         if (!this.controls) return true;
@@ -148,8 +148,8 @@ class DeviceUIPlugin extends UIPlugin {
         break;
       case "executeRoutes":
         if (!this.controls) return true;
-        microdrop.getState('routes-model', 'routes').then((routes) => {
-          microdrop.triggerPlugin('routes-model', 'execute', {routes}, -1);
+        scicad.getState('routes-model', 'routes').then((routes) => {
+          scicad.triggerPlugin('routes-model', 'execute', {routes}, -1);
         });
         break;
       case "selectElectrode":
@@ -240,7 +240,7 @@ class DeviceUIPlugin extends UIPlugin {
         if (_camera == -2) {
           // Remove video feed if _camera == -2
           this._camera = _camera;
-          localStorage.setItem("microdrop:last-webcam", -2);
+          localStorage.setItem("scicad:last-webcam", -2);
           _.each(mediaDevices, (info) => {
             var constraints = {
               video: {deviceId: {exact: info.deviceId}}
@@ -274,7 +274,7 @@ class DeviceUIPlugin extends UIPlugin {
             if (stream)
             stream.getTracks().forEach(t => t.stop() );
             stream = _stream;
-            localStorage.setItem("microdrop:last-webcam", info.deviceId);
+            localStorage.setItem("scicad:last-webcam", info.deviceId);
             plane.video.src = URL.createObjectURL(stream);
             // if (!plane.videoTexture) plane.initVideo();
           });
@@ -325,7 +325,7 @@ class DeviceUIPlugin extends UIPlugin {
     gui.closed = true;
     // Get list of video feeds, and restore if present
     const allFeeds = await getVideoFeeds();
-    const lastFeed = localStorage.getItem('microdrop:last-webcam');
+    const lastFeed = localStorage.getItem('scicad:last-webcam');
     if (_.indexOf([...allFeeds,...["-2"]], lastFeed) != -1 ) {
       devices.camera = lastFeed;
     }

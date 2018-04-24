@@ -1,4 +1,4 @@
-# @microdrop/device-controller
+# @scicad/device-controller
 
 Control the state of active electrodes, and routes through device svg files.
 

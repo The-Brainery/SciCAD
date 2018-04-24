@@ -1,5 +1,5 @@
 {
-  "name": "@microdrop/version-info",
+  "name": "@scicad/version-info",
   "version": "1.1.67",
   "description": "Display the version of each plugin compared to state or file",
   "main": "index.js",

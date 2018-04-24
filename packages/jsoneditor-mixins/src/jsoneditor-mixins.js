@@ -6,12 +6,12 @@ const sha256 = require('sha256');
 const _ = require('lodash');
 
 const ajv = new Ajv({useDefaults: true});
-const {FindPath, FindPaths} = require('@microdrop/helpers');
-const {TabMenu, select, unselect} = require('@microdrop/ui-mixins/src/TabMenu.js');
+const {FindPath, FindPaths} = require('@scicad/helpers');
+const {TabMenu, select, unselect} = require('@scicad/ui-mixins/src/TabMenu.js');
 _.findPath  = (...args) => {return FindPath(...args)}
 _.findPaths = (...args) => {return FindPaths(...args)}
 
-const APPNAME = 'microdrop';
+const APPNAME = 'scicad';
 const JsonEditorMixins = {};
 
 JsonEditorMixins.schemaHasChanged = function (schema) {
@@ -163,7 +163,7 @@ JsonEditorMixins.publishEditorChanges = async function () {
   this.editorUpdating = true;
   try {
     const {plugin, key, val} = this.getEditorData();
-    // Make put request to modify microdrop state:
+    // Make put request to modify scicad state:
     const topic = `${APPNAME}/put/${plugin}/${key}`;
     const msg = {};
     await this.sendMessage(topic, {[key]: val});

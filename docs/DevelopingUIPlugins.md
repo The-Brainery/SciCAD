@@ -3,11 +3,11 @@
 There are no library dependencies/requirements asides from MQTT in order to develop plugins. For developers new to MQTT, see https://eclipse.org/paho/clients/js/
 
 However, you are free to use
-[mqtt-client.js](https://github.com/Lucaszw/microdrop-3/blob/master/ui/src/mqtt-client.js)
+[mqtt-client.js](https://github.com/The-Brainery/SciCAD/blob/master/ui/src/mqtt-client.js)
 or
-[ui-plugin.js (which inherits from mqtt-client.js)](https://github.com/Lucaszw/microdrop-3/blob/master/ui/src/ui-plugin.js) as parents for you UI Plugins.
+[ui-plugin.js (which inherits from mqtt-client.js)](https://github.com/The-Brainery/SciCAD/blob/master/ui/src/ui-plugin.js) as parents for you UI Plugins.
 
-An API for the various core microdrop plugins is coming soon, but in the meantime the various messaging topics for each protocol can be found through investigating the plugin's source and [mqtt-messages.js](https://github.com/Lucaszw/microdrop-3/blob/master/ui/src/mqtt-messages.js) as reference.
+An API for the various core scicad plugins is coming soon, but in the meantime the various messaging topics for each protocol can be found through investigating the plugin's source and [mqtt-messages.js](https://github.com/The-Brainery/SciCAD/blob/master/ui/src/mqtt-messages.js) as reference.
 
 Plugins should be ES6 classes, and accept a dom node (elem), and a PhosphorJS FocusTracker object:
 ```javascript
@@ -35,7 +35,7 @@ topLeft, topRight, bottomLeft, or bottomRight. This will determine where the plu
 
 ## PhosphorJS Widget
 
-The plugin class must contain a static method called Widget that returns a PhosphorWidget object. This is already included if your plugin inherits from [ui-plugin.js](https://github.com/Lucaszw/microdrop-3/blob/master/ui/src/ui-plugin.js)
+The plugin class must contain a static method called Widget that returns a PhosphorWidget object. This is already included if your plugin inherits from [ui-plugin.js](https://github.com/The-Brainery/SciCAD/blob/master/ui/src/ui-plugin.js)
 
 ```javascript
   static Widget(panel, dock, focusTracker) {
@@ -53,25 +53,25 @@ The plugin class must contain a static method called Widget that returns a Phosp
 Each plugin should contain it's own MQTT Client.
 See https://eclipse.org/paho/clients/js/ . If your plugin extends MQTTClient or UIPlugin, then a MQTTClient will be instantuated on super().
 
-The default microdrop plugins all use the following hierarchy depending on the message:
+The default scicad plugins all use the following hierarchy depending on the message:
 
-**State Messages** (persistant storage of microdrop properties such as electrodes, routes, and devices)<br />
-*microdrop/{plugin-model/sender}/state/{model property}*
+**State Messages** (persistant storage of scicad properties such as electrodes, routes, and devices)<br />
+*scicad/{plugin-model/sender}/state/{model property}*
 
-**State Error Messages** (triggered when microdrop drop property fails to update after put)<br />
-*microdrop/{plugin-model/sender}/error/{model property}*
+**State Error Messages** (triggered when scicad drop property fails to update after put)<br />
+*scicad/{plugin-model/sender}/error/{model property}*
 
 **Put Messages** (Use for requesting a plugin to change one of its properties)<br />
-*microdrop/put/{sender}/{model property}*
+*scicad/put/{sender}/{model property}*
 
 **Notify Messages** (Send notification to another plugin)<br />
-*microdrop/notify/{sender}/{topic}*
+*scicad/notify/{sender}/{topic}*
 
 **Status Messages** (A non-descriminate status message)<br />
-*microdrop/status/{sender}*
+*scicad/status/{sender}*
 
 **Trigger Message** (Use to trigger actions between plugins)<br />
-*microdrop/trigger/{sender}/{action}*
+*scicad/trigger/{sender}/{action}*
 
 **Signal Message** (A non-descriminate message w/ topic)<br />
 *microdorp/{sender}/signal/{topic}*
@@ -94,14 +94,14 @@ If you are inheriting from MQTTClient or UI Plugin then these topics are wrapped
 
 ## Message Payload
 
-All default MicroDrop Plugins are JSON Objects with a "_ _ head _ _" key that contains the plugin name, plugin version, and (TODO: microdrop version). This is to ensure compatibility of plugins across plugin and microdrop versions.
+All default MicroDrop Plugins are JSON Objects with a "_ _ head _ _" key that contains the plugin name, plugin version, and (TODO: scicad version). This is to ensure compatibility of plugins across plugin and scicad versions.
 
 ```javascript
   DefaultHeader() {
     const header = new Object();
     header.plugin_name = this.name;
     header.plugin_version = this.version;
-    // TODO: header.microdrop_version = this.microdrop_version
+    // TODO: header.scicad_version = this.scicad_version
     return header;
   }
 ```
@@ -150,11 +150,11 @@ class SamplePlugin extends UIPlugin {
 
 ## Global Map Object
 
-Finally the plugin must be added to a global map called microdropPlugins
+Finally the plugin must be added to a global map called scicadPlugins
 
 ```javascript
-if (!window.microdropPlugins) window.microdropPlugins = new Map();
-window.microdropPlugins.set("SamplePlugin", SamplePlugin);
+if (!window.scicadPlugins) window.scicadPlugins = new Map();
+window.scicadPlugins.set("SamplePlugin", SamplePlugin);
 ```
 
 ## Sample Web Plugin Skeleton:
@@ -212,6 +212,6 @@ class SamplePlugin extends UIPlugin {
   }
 }
 
-if (!window.microdropPlugins) window.microdropPlugins = new Map();
-window.microdropPlugins.set("SamplePlugin", SamplePlugin);
+if (!window.scicadPlugins) window.scicadPlugins = new Map();
+window.scicadPlugins.set("SamplePlugin", SamplePlugin);
 ```

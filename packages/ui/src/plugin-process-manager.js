@@ -2,7 +2,7 @@ const $ = require('jquery');
 const request = require('browser-request');
 
 const {WrapData} = require('@micropede/client/src/client.js');
-const UIPlugin = require('@microdrop/ui-plugin/src/ui-plugin.js');
+const UIPlugin = require('@scicad/ui-plugin/src/ui-plugin.js');
 
 class PluginProcessManager extends UIPlugin {
   constructor(elem, focusTracker) {
@@ -20,7 +20,7 @@ class PluginProcessManager extends UIPlugin {
     this.plugins = new Object();
     this.pluginPathField = this.PluginPathField();
   }
-  get channel() {return "microdrop/plugin-manager"}
+  get channel() {return "scicad/plugin-manager"}
 
   get list(){return this._list}
   set list(item) {this.changeElement("list", item)}

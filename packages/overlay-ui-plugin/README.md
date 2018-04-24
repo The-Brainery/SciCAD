@@ -1,2 +1,2 @@
-# @microdrop/overlay-ui-plugin
+# @scicad/overlay-ui-plugin
 UI Plugin for Controlling Device Overlays

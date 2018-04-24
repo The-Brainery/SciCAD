@@ -1,7 +1,7 @@
-<img src="https://raw.githubusercontent.com/sci-bots/microdrop-3/master/docs/MicroDrop.PNG" />
+<img src="https://raw.githubusercontent.com/The-Brainery/SciCAD/master/docs/MicroDrop.PNG" />
 
-[![Build Status](https://travis-ci.org/sci-bots/microdrop-3.svg?branch=master)](https://travis-ci.org/sci-bots/microdrop-3)
-[![Build status](https://ci.appveyor.com/api/projects/status/am9mpa48m038s7ec?svg=true)](https://ci.appveyor.com/project/SciBots/microdrop-3)
+[![Build Status](https://travis-ci.org/The-Brainery/SciCAD.svg?branch=master)](https://travis-ci.org/The-Brainery/SciCAD)
+[![Build status](https://ci.appveyor.com/api/projects/status/am9mpa48m038s7ec?svg=true)](https://ci.appveyor.com/project/SciBots/SciCAD)
 
 
 MicroDrop with MQTT communication and web front end
@@ -9,13 +9,13 @@ MicroDrop with MQTT communication and web front end
 ## Installing From Source (Latest)
 
 ### Prerequisites:
-- git 
+- git
 - node / npm
 
 ### Installation:
 ```sh
-git clone --recursive https://github.com/sci-bots/microdrop-3
-cd microdrop-3
+git clone --recursive https://github.com/The-Brainery/SciCAD
+cd SciCAD
 npm i --global yarn electron @yac/yac npm-check-updates lerna
 yarn upgrade:micropede
 yarn upgrade:yac
@@ -27,27 +27,27 @@ yarn start
 ## Installing From NPM:
 
 ### Prerequisites:
-- git 
+- git
 - node / npm
 
 ### Installation:
 ```sh
-npm install --global @microdrop/application
+npm install --global @scicad/application
 ```
 
 ### Start:
 ```sh
-  >> microdrop # Ensure microdrop-2 is not in path
+  >> scicad # Ensure scicad-2 is not in path
 ```
 
 ## Building an installer:
 
 ```sh
-cd microdrop-3
+cd SciCAD
 cd packages/builder
 yarn builder
 ```
 
 ## Docs
 
-**[Visit project wiki](https://github.com/sci-bots/microdrop-3/wiki)**
+**[Visit project wiki](https://github.com/The-Brainery/SciCAD/wiki)**

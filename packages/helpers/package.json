@@ -1,7 +1,7 @@
 {
-  "name": "@microdrop/helpers",
+  "name": "@scicad/helpers",
   "version": "1.1.57",
-  "description": "Helper functions used across microdrop monorepo packages",
+  "description": "Helper functions used across scicad monorepo packages",
   "main": "helpers.js",
   "author": "Sci-Bots",
   "license": "BSD-2-Clause",

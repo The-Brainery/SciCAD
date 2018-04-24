@@ -63,7 +63,7 @@
 
             let shouldUpdate = false;
             if (needsUpdating)
-              shouldUpdate = confirm(`The follwing plugins are out of date: ${outdated.join(" ")}. Would you like microdrop to attempt an update?`);
+              shouldUpdate = confirm(`The follwing plugins are out of date: ${outdated.join(" ")}. Would you like scicad to attempt an update?`);
 
             // If out of date, ask for confirmation to modify
             if (shouldUpdate == true) {
@@ -108,7 +108,7 @@
         }};
         let reset = {label: 'Reset', click: () => {
           view.executeJavaScript(`_.each(_.keys(localStorage), (k) => {
-            if (_.includes(k, "microdrop")) {
+            if (_.includes(k, "scicad")) {
               localStorage.removeItem(k);
             }
           })`);

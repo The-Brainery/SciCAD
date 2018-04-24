@@ -34,9 +34,9 @@ async function findPluginsInPaths(paths) {
     // Get list of sub directories
     const sub_directories = getDirectories(plugin_path);
 
-    // Check each sub directory for a microdrop.json file
+    // Check each sub directory for a scicad.json file
     for (const dir of sub_directories) {
-      if (await exists(path.join(dir, "microdrop.json"))) {
+      if (await exists(path.join(dir, "scicad.json"))) {
         if ("send" in process)
           process.send({plugin_path: dir});
         else
@@ -49,7 +49,7 @@ async function findPluginsInPaths(paths) {
 async function findUserDefinedPlugins(extraPaths=[], storage=undefined, callback) {
   if (storage == undefined) storage = window.localStorage;
 
-  const pluginsData = JSON.parse(storage.getItem("microdrop:plugins"));
+  const pluginsData = JSON.parse(storage.getItem("scicad:plugins"));
   const searchPaths = pluginsData.searchPaths || [];
 
 
@@ -67,16 +67,16 @@ async function findUserDefinedPlugins(extraPaths=[], storage=undefined, callback
     }
 
     // Check if searchPath is itself a plugin
-    if (await exists(path.join(searchPath, "microdrop.json"))) {
+    if (await exists(path.join(searchPath, "scicad.json"))) {
         callback({plugin_path: searchPath})
       continue;
     }
 
     // Get all subdirectories:
     const subDirectories = await getDirectories(searchPath);
-    // Check each sub directory for a microdrop.json file
+    // Check each sub directory for a scicad.json file
     for (const dir of subDirectories) {
-      if (await exists(path.join(dir, "microdrop.json"))) {
+      if (await exists(path.join(dir, "scicad.json"))) {
         callback({plugin_path: searchPath});
       }
     }

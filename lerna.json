@@ -14,7 +14,7 @@
     "packages/ui-plugin",
     "packages/ui",
     "packages/models",
-    "packages/microdrop",
+    "packages/scicad",
     "packages/dropbot-plugin",
     "packages/step-ui-plugin",
     "packages/helpers",

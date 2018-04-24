@@ -68,7 +68,7 @@ def setup_serial_proxy(self):
 
     self.control_board = Y.control_board
 
-APPNAME = "microdrop"
+APPNAME = "scicad"
 
 class DropBot(MicropedeClient):
     def __init__(self, *args, **kwargs):
@@ -129,8 +129,8 @@ class DropBot(MicropedeClient):
 
     async def turn_on_electrodes(self, payload, params):
         # Get the three object from device-model
-        microdrop = MicropedeAsync(APPNAME,port=self.port,loop=self.loop)
-        three_object = await microdrop.get_state('device-model', 'three-object')
+        scicad = MicropedeAsync(APPNAME,port=self.port,loop=self.loop)
+        three_object = await scicad.get_state('device-model', 'three-object')
         active_electrodes = payload
 
         def active_filter(obj):
@@ -209,4 +209,4 @@ class DropBot(MicropedeClient):
                                "voltage", "failed")
 
 print("Running dropbot plugin")
-dropbot = DropBot("microdrop", host="localhost", port=1884, name="dropbot")
+dropbot = DropBot("scicad", host="localhost", port=1884, name="dropbot")

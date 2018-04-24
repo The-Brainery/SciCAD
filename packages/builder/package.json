@@ -1,13 +1,13 @@
 {
-    "name": "@microdrop/builder",
+    "name": "@scicad/builder",
     "productName": "MicroDrop",
     "author": "Sci-Bots",
     "version": "1.1.70",
     "description": "Digital Microfluidic Control Software",
-    "main": "node_modules/@microdrop/application/bin/microdrop",
+    "main": "node_modules/@scicad/application/bin/scicad",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 0",
-        "start": "./node_modules/.bin/electron node_modules/@microdrop/application/bin/microdrop",
+        "start": "./node_modules/.bin/electron node_modules/@scicad/application/bin/scicad",
         "builder": "./node_modules/.bin/electron-builder",
         "packager": "node electron-packager.config.js",
         "release": "build"
@@ -19,14 +19,14 @@
         "electron-packager": "^12.0.1"
     },
     "dependencies": {
-        "@microdrop/application": "^1.1.69",
+        "@scicad/application": "^1.1.69",
         "yarn.lock": "^1.0.3"
     },
     "build": {
-        "appId": "com.sci-bots.microdrop",
-        "productName": "microdrop",
+        "appId": "com.sci-bots.scicad",
+        "productName": "scicad",
         "copyright": "Copyright © 2018 Sci-Bots",
-        "artifactName": "microdrop-v${version}-${os}-${arch}.${ext}",
+        "artifactName": "scicad-v${version}-${os}-${arch}.${ext}",
         "files": [
             "!nsis",
             "!packager",
@@ -38,7 +38,7 @@
         },
         "publish": {
             "provider": "github",
-            "repo": "microdrop-3",
+            "repo": "SciCAD",
             "owner": "sci-bots"
         }
     },

@@ -1,9 +1,9 @@
 const yo = require('yo-yo');
 const _ = require('lodash');
 const MicropedeAsync = require('@micropede/client/src/async.js');
-const UIPlugin = require('@microdrop/ui-plugin');
+const UIPlugin = require('@scicad/ui-plugin');
 
-const APPNAME = 'microdrop';
+const APPNAME = 'scicad';
 
 const keys = ["i2c_address", "switching_board_i2c_address", "R7", "pot_max",
 "max_voltage", "min_frequency", "max_frequency", "id", "capacitance_n_samples",

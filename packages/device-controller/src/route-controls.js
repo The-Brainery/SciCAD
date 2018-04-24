@@ -18,7 +18,7 @@ const ElectrodeControls = require('./electrode-controls');
 const FindAllNeighbours = ElectrodeControls.FindAllNeighbours;
 const MAX_DISTANCE = ElectrodeControls.MAX_DISTANCE;
 
-const APPNAME = 'microdrop';
+const APPNAME = 'scicad';
 
 const DEFAULT_HOST = 'localhost';
 
@@ -95,8 +95,8 @@ class RouteControls extends MicropedeClient {
       });
 
       // Call put request to routes-model:
-      const microdrop = new MicropedeAsync('microdrop', undefined, this.port);
-      await microdrop.putPlugin('routes-model', 'routes', routes);
+      const scicad = new MicropedeAsync('scicad', undefined, this.port);
+      await scicad.putPlugin('routes-model', 'routes', routes);
 
       return this.notifySender(payload, 'updated', 'selected-routes');
     } catch (e) {
@@ -125,8 +125,8 @@ class RouteControls extends MicropedeClient {
     }
 
     const group = this.electrodeControls.svgGroup;
-    const microdrop = new MicropedeAsync(APPNAME, DEFAULT_HOST, this.port);
-    const electrodes = (await microdrop.triggerPlugin('device-model',
+    const scicad = new MicropedeAsync(APPNAME, DEFAULT_HOST, this.port);
+    const electrodes = (await scicad.triggerPlugin('device-model',
       'electrodes-from-routes', {routes}, 1002)).response;
 
     const removeLine = (line) => {
@@ -205,9 +205,9 @@ class RouteControls extends MicropedeClient {
   }
   async selectRoute(id) {
     const lineWidth = 0.3;
-    const microdrop = new MicropedeAsync(APPNAME, DEFAULT_HOST, this.port);
+    const scicad = new MicropedeAsync(APPNAME, DEFAULT_HOST, this.port);
     let routes = await this.getState('routes', 'routes-model');
-    const absoluteRoutes = (await microdrop.triggerPlugin('device-model',
+    const absoluteRoutes = (await scicad.triggerPlugin('device-model',
         'electrodes-from-routes', {routes})).response;
 
     const colorRoutes = (str, routes) => {
@@ -241,7 +241,7 @@ class RouteControls extends MicropedeClient {
     // Listen for context menu action
     const selectCallback = async (e) => {
       colorRoutes("red", this.highlightedRoutes);
-      await microdrop.triggerPlugin('step-ui-plugin', 'change-schema', {name: 'route-controls'});
+      await scicad.triggerPlugin('step-ui-plugin', 'change-schema', {name: 'route-controls'});
       colorRoutes("rgb(99, 246, 255)", this.selectedRoutes);
       this.selectedRoutes = _.clone(this.highlightedRoutes);
       this.highlightedRoutes = [];
@@ -254,23 +254,23 @@ class RouteControls extends MicropedeClient {
     const clearCallback = (e) => {
       const uuids = _.map(this.highlightedRoutes, 'uuid');
       routes = _.filter(routes, (r) => !_.includes(uuids, r.uuid));
-      const microdrop = new MicropedeAsync(APPNAME, DEFAULT_HOST, this.port);
-      microdrop.putPlugin('routes-model', 'routes', routes);
+      const scicad = new MicropedeAsync(APPNAME, DEFAULT_HOST, this.port);
+      scicad.putPlugin('routes-model', 'routes', routes);
       this.off("clear-route");
       this.off("execute-route");
       this.off("select-route");
     }
 
     const execCallback = (e) => {
-      const microdrop = new MicropedeAsync(APPNAME, DEFAULT_HOST, this.port);
+      const scicad = new MicropedeAsync(APPNAME, DEFAULT_HOST, this.port);
       if (this.highlightedRoutes.length <= 0 ) return;
       switch (e.key) {
         case "executeRoute":
-          microdrop.triggerPlugin('routes-model', 'execute',
+          scicad.triggerPlugin('routes-model', 'execute',
             {routes: this.highlightedRoutes}, -1);
           break;
         case "executeRoutes":
-          microdrop.triggerPlugin('routes-model', 'execute',
+          scicad.triggerPlugin('routes-model', 'execute',
             {routes: this.highlightedRoutes}, -1);
           break;
       }
@@ -319,7 +319,7 @@ class RouteControls extends MicropedeClient {
     let lastElectrode;
 
     let maxDistance;
-    let microdrop = new MicropedeAsync('microdrop', undefined, this.port);
+    let scicad = new MicropedeAsync('scicad', undefined, this.port);
     try {
       maxDistance = await this.getState('max-distance', 'device-model');
     } catch (e) {

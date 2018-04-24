@@ -5,7 +5,7 @@ require('font-awesome/css/font-awesome.css');
 
 var _ = require('lodash');
 var $ = require('jquery');
-var MicroDropAsync = require('@microdrop/async/MicroDropAsync');
+var MicroDropAsync = require('@scicad/async/MicroDropAsync');
 var Mustache = require('mustache');
 var {Widget, Panel, FocusTracker} = require('@phosphor/widgets');
 var {ILayoutRestorer} = require('@jupyterlab/application');
@@ -16,7 +16,7 @@ var {MimeDocumentFactory} = require('@jupyterlab/docregistry');
 var StateListener = require('./StateListener');
 
 const MIME_TYPE = 'text/plain';
-const MIME_TYPES = ['text/plain', 'text/microdrop+json', 'text/microdrop'];
+const MIME_TYPES = ['text/plain', 'text/scicad+json', 'text/scicad'];
 const NAME = 'MicroDrop';
 
 const DIRTY_CLASS = 'jp-mod-dirty';
@@ -45,7 +45,7 @@ class UIPluginLauncher extends MicroDropAsync.MqttClient {
     this.loaded = true;
   }
   onButtonClicked(data) {
-    // TODO: Add subscription to get base microdrop url: (ex. localhost:3000)
+    // TODO: Add subscription to get base scicad url: (ex. localhost:3000)
     const url = `http://localhost:3000/${data.pluginView}`;
     this.panel.url = url;
     this.panel.pluginName = data.pluginName;
@@ -65,7 +65,7 @@ class UIPluginLauncher extends MicroDropAsync.MqttClient {
 
     this.render(views);
     const btns =
-      this.panel.node.getElementsByClassName("microdrop-ui-plugin-btn");
+      this.panel.node.getElementsByClassName("scicad-ui-plugin-btn");
     for (const btn of btns)
       btn.addEventListener("click", () => this.trigger("btn-clicked", btn.dataset));
   }
@@ -92,7 +92,7 @@ class UIPluginLauncher extends MicroDropAsync.MqttClient {
             <input type="text" class="form-control form-control-sm mt-1" disabled value="{{view}}">
           </div>
           <div class="col-md-1">
-            <button type="submit" class="btn btn-primary btn-sm mt-1 microdrop-ui-plugin-btn"
+            <button type="submit" class="btn btn-primary btn-sm mt-1 scicad-ui-plugin-btn"
             data-plugin-name={{name}} data-plugin-view={{view}}>
               Launch
             </button>

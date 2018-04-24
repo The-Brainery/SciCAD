@@ -26,17 +26,17 @@ Packages:
      Name                      |  Version | Package Types   | Platforms
      ------------------------- |   ------ | --------------- | ---------------
      cfobel/droplet-planning-plugin-requirements |          | conda           | win-32
-     lucaszw/microdrop.droplet-planning-plugin | 2.1.post43 | conda           | win-32
-     microdrop-plugins/microdrop.droplet-planning-plugin |    2.2.1 | conda           | win-32
+     lucaszw/scicad.droplet-planning-plugin | 2.1.post43 | conda           | win-32
+     scicad-plugins/scicad.droplet-planning-plugin |    2.2.1 | conda           | win-32
      wheeler-microfluidics/droplet-planning-plugin-requirements | 1.0.post36 | conda           | win-32
 Found 4 packages
 ```
 ```sh
-> anaconda show lucaszw/microdrop.droplet-planning-plugin
+> anaconda show lucaszw/scicad.droplet-planning-plugin
 ```
 ```
 Using Anaconda API: https://api.anaconda.org
-Name:    microdrop.droplet-planning-plugin
+Name:    scicad.droplet-planning-plugin
 Summary:
 Access:  public
 Package Types:  conda
@@ -45,18 +45,18 @@ Versions:
    + 2.1.post43
 
 To install this package with conda run:
-     conda install --channel https://conda.anaconda.org/lucaszw microdrop.droplet-planning-plugin
+     conda install --channel https://conda.anaconda.org/lucaszw scicad.droplet-planning-plugin
 ```
 
 **2. Install the plugin using conda install: **
 ```sh
-conda install --channel https://conda.anaconda.org/lucaszw microdrop.droplet-planning-plugin
+conda install --channel https://conda.anaconda.org/lucaszw scicad.droplet-planning-plugin
 ```
 
 
 ## Registering Plugin with MicroDrop ##
 
-Plugins can be registered by launching the plugin separately while microdrop is running, or by adding the plugin path through the plugin manager ui found at http://localhost:PORT/plugin-manager. The process is outlined for installing droplet-planning-plugin as an example.
+Plugins can be registered by launching the plugin separately while scicad is running, or by adding the plugin path through the plugin manager ui found at http://localhost:PORT/plugin-manager. The process is outlined for installing droplet-planning-plugin as an example.
 
 ### Registering Plugin through launching ###
 
