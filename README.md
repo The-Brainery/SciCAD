@@ -1,12 +1,15 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/The-Brainery/SciCAD/master/docs/logo.png" width=150 />
+<br/>
+<img src="https://raw.githubusercontent.com/The-Brainery/SciCAD/master/docs/logo.png" width=150 />
   <br/><br/>
-  <a href="https://travis-ci.org/The-Brainery/SciCAD">
+  <br/>
+
+<a href="https://travis-ci.org/The-Brainery/SciCAD">
     <img alt="Build Status" src="https://travis-ci.org/The-Brainery/SciCAD.svg?branch=master"/>
-  </a>
-  <a href="https://ci.appveyor.com/project/SciBots/SciCAD">
-    <img alt="Build Status" src="https://ci.appveyor.com/api/projects/status/am9mpa48m038s7ec?svg=true"/>
-  </a>
+</a>
+<a href="https://ci.appveyor.com/project/SciBots/SciCAD">
+  <img alt="Build Status" src="https://ci.appveyor.com/api/projects/status/am9mpa48m038s7ec?svg=true"/>
+</a>
 </p>
 
 ## Installing From Source (Latest)
