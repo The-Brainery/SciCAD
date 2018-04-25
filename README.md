@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/The-Brainery/SciCAD/master/docs/SciCAD.PNG" />
+<img src="https://raw.githubusercontent.com/The-Brainery/SciCAD/master/docs/SciCAD.png" />
 
 [![Build Status](https://travis-ci.org/The-Brainery/SciCAD.svg?branch=master)](https://travis-ci.org/The-Brainery/SciCAD)
 [![Build status](https://ci.appveyor.com/api/projects/status/am9mpa48m038s7ec?svg=true)](https://ci.appveyor.com/project/SciBots/SciCAD)
