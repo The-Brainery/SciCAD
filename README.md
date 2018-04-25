@@ -43,7 +43,7 @@ npm install --global @scicad/application
 
 ### Start:
 ```sh
-  >> scicad # Ensure scicad-2 is not in path
+  >> scicad
 ```
 
 ## Building an installer:
