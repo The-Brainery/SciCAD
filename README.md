@@ -12,6 +12,12 @@
 </a>
 </p>
 
+
+# Note:
+
+This is the actively developed fork of the original microdrop-3 software package. For customers who purchased a DropBot from Sci-Bots, please see the original project (https://github.com/sci-bots/microdrop-3).
+
+
 ## Installing From Source (Latest)
 
 ### Prerequisites:
@@ -57,3 +63,18 @@ yarn builder
 ## Docs
 
 **[Visit project wiki](https://github.com/The-Brainery/SciCAD/wiki)**
+
+## Acknowledgements: 
+
+This software was originally funded via contract work from Sci-Bots ran by: Ryan Fobel, and Christian Fobel
+(https://sci-bots.com/). With the focus being to develop a new software platform for their open source hardware project: DropBot (http://microfluidics.utoronto.ca/dropbot/), with the software titled: Microdrop-3. 
+
+Unfortunately, the DropBot component of this project will no longer be maintained by myself; to ensure compatibility for Sci-Bots' DropBot customers I have forked and renamed the project to avoid confusion. For Sci-Bots customers, please see: https://github.com/sci-bots/microdrop-3. 
+
+Ryan and Christian funded my developments of this project for almost a year, and in thanks, I have decided to rename the software "SciCAD" as homage to Sci-Bots.
+
+Original developments of what later would become SciCAD arose from my fourth year project: DropLab. My team included myself along with: Abdullah Abbas, Josh Reid, and Kamyar Ghofrani.
+(https://www.youtube.com/watch?v=W8F3uWKRhpo)
+
+This project was also awarded the Autodesk Canada Capstone Design Award (https://uwaterloo.ca/capstone-design/autodesk-canada-capstone-design-award) in 2017.
+
