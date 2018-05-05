@@ -19,7 +19,7 @@ This is the actively developed fork of the original microdrop-3 software package
 
 # Hardware: 
 
-Ferrobot: You can build a Digital Microfluidic Platform at home for under $50! See: https://www.youtube.com/watch?v=W7XAcH6gUpQ.
+Ferrobot: You can build a Digital Microfluidic Platform at home for under $50! See: https://github.com/The-Brainery/FerroBot
 
 This software also supports the DropBot platform by Sci-Bots, via the original project: (https://github.com/sci-bots/microdrop-3). 
 
