@@ -12,11 +12,19 @@
 </a>
 </p>
 
-
 # Note:
 
-This is the actively developed fork of the original microdrop-3 software package. For customers who purchased a DropBot from Sci-Bots, please see the original project (https://github.com/sci-bots/microdrop-3).
+This is the actively developed fork of the original microdrop-3 software package. For customers who purchased a DropBot from Sci-Bots, please see the original project (https://github.com/sci-bots/microdrop-3) as compatibilty is not a guarantee.
 
+
+# Hardware: 
+
+Ferrobot: You can build a Digital Microfluidic Platform at home for under $50! See: https://www.youtube.com/watch?v=W7XAcH6gUpQ.
+
+This software also supports the DropBot platform by Sci-Bots, via the original project: (https://github.com/sci-bots/microdrop-3). 
+
+Support for the OpenDrop will also be coming in the near future! 
+See: http://www.gaudi.ch/OpenDrop/
 
 ## Installing From Source (Latest)
 
@@ -69,12 +77,12 @@ yarn builder
 This software was originally funded via contract work from Sci-Bots ran by: Ryan Fobel, and Christian Fobel
 (https://sci-bots.com/). With the focus being to develop a new software platform for their open source hardware project: DropBot (http://microfluidics.utoronto.ca/dropbot/), with the software titled: Microdrop-3. 
 
-Unfortunately, the DropBot component of this project will no longer be maintained by myself; to ensure compatibility for Sci-Bots' DropBot customers I have forked and renamed the project to avoid confusion. For Sci-Bots customers, please see: https://github.com/sci-bots/microdrop-3. 
+Unfortunately, Sci-Bots no longer has the resources to maintain the project, and so I'll shifting development to my new organization, The Brainery. For this reason, support for the Sci-Bots' DropBot platform might become depricated in the future.
+To ensure compatibility for Sci-Bots' DropBot customers, I have forked and renamed the project to avoid confusion. For a guaranteed DropBot compatible version, please use the original fork: https://github.com/sci-bots/microdrop-3. 
 
 Ryan and Christian funded my developments of this project for almost a year, and in thanks, I have decided to rename the software "SciCAD" as homage to Sci-Bots.
 
-Original developments of what later would become SciCAD arose from my fourth year project: DropLab. My team included myself along with: Abdullah Abbas, Josh Reid, and Kamyar Ghofrani.
+Original developments of what later would become SciCAD arose from my fourth year project: DropLab. The team included myself along with: Abdullah Abbas, Josh Reid, and Kamyar Ghofrani.
 (https://www.youtube.com/watch?v=W8F3uWKRhpo)
 
 This project was also awarded the Autodesk Canada Capstone Design Award (https://uwaterloo.ca/capstone-design/autodesk-canada-capstone-design-award) in 2017.
-
