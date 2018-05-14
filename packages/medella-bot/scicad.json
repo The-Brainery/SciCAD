@@ -1,0 +1,5 @@
+{
+  "name": "medella-bot",
+  "type": "ui",
+  "script": "build/medella-bot.web.js"
+}
