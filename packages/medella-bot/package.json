@@ -2,15 +2,20 @@
   "name": "@scicad/medella-bot",
   "version": "1.0.0",
   "description": "Medella Health Deposition System",
-  "main": "index.js",
+  "main": "node server.js",
   "author": "The Brainery",
   "license": "MIT",
   "private": false,
+  "keywords": [
+    "yac-project",
+    "scicad"
+  ],
   "devDependencies": {
     "webpack": "3"
   },
   "dependencies": {
     "@scicad/ui-plugin": "^1.1.73",
+    "serialport": "^6.2.0",
     "yo-yo": "^1.4.1"
   },
   "scripts": {

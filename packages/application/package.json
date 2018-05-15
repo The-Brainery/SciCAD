@@ -64,6 +64,7 @@
       "@scicad/medella-bot"
     ],
     "defaultProcessPlugins": [
+      "@scicad/medella-bot",
       "@scicad/dropbot-plugin"
     ]
   },
