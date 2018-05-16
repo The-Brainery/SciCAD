@@ -51,9 +51,14 @@ class UIPlugin extends MicropedeClient {
         widget.plugin = plugin;
         widget.title.closable = false;
         dock.addWidget(widget);
-        plugin.on("activate-tab", ()=> {
+        plugin._activateTab = () => {
+          console.log("ACTIVATING WIDGET:::", widget.title.label);
           dock.activateWidget(widget);
-        })
+        }
+        plugin.on("activate-tab", ()=> {
+          plugin._activateTab();
+        });
+        
         // panel.activateWidget(widget);
         focusTracker.add(widget);
         resolve(widget);
