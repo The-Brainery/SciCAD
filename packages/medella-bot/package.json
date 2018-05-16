@@ -16,7 +16,9 @@
   "dependencies": {
     "@micropede/client": "^0.0.39",
     "@scicad/ui-plugin": "^1.1.74",
+    "@serialport/parser-delimiter": "^1.0.5",
     "keyboard-shortcut": "^1.2.0",
+    "lodash": "^4.17.10",
     "serialport": "^6.2.0",
     "yo-yo": "^1.4.1"
   },

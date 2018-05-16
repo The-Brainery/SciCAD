@@ -7,7 +7,18 @@ class MedellaBot extends UIPlugin {
   constructor(elem, focusTracker, port, ...args) {
     super(elem, focusTracker, port, ...args);
 
-    this.toggleBox = yo`<input type="checkbox" onchange=${this.toggleTabDisable.bind(this)}>`;
+    this.toggleBox = yo`
+      <input type="checkbox" onchange=${this.toggleTabDisable.bind(this)}>
+    `;
+
+    this.positionInfo = yo`
+      <b></b>
+    `;
+
+    this.selectedElectrodeInfo = yo`
+      <b></b>
+    `;
+
     let moveContainer;
     moveContainer = yo`
       <div>
@@ -24,18 +35,26 @@ class MedellaBot extends UIPlugin {
           <label>Disable Tab Change?</label>
           ${this.toggleBox}
         </div>
+        <button onclick=${()=>this.trigger("stop")}>Stop</button>
+        <p>Position: ${this.positionInfo}</p>
+        <p>Selected Electrode: ${this.selectedElectrodeInfo}</p>
+        <button onclick=${this.setZero.bind(this)}>Set Zero</button>
       </div>
     `;
     this.element.appendChild(moveContainer);
   }
   listen() {
+    this.bindTriggerMsg('medella-bot-server', 'stop', 'stop');
     this.bindTriggerMsg('medella-bot-server', 'move', 'move');
+    this.bindTriggerMsg('medella-bot-server', 'zero', 'zero');
     this.bindTriggerMsg('global-ui-plugin', 'disable-tab-activation', 'disable-tab-activation');
     this.bindTriggerMsg('global-ui-plugin', 'enable-tab-activation', 'enable-tab-activation');
     this.onStateMsg("electrode-controls", "selected-electrode", this.selectedElectrodeChanged.bind(this));
     this.onStateMsg("global-ui-plugin", "tab-activation-enabled", (val) => {
-      console.log({val});
       this.toggleBox.checked = !val;
+    });
+    this.onStateMsg("medella-bot-server", 'position', (pos) => {
+      this.positionInfo.innerHTML = pos;
     });
     Key("left", this.moveLocal.bind(this, DIRECTIONS.LEFT));
     Key("right", this.moveLocal.bind(this, DIRECTIONS.RIGHT));
@@ -47,9 +66,11 @@ class MedellaBot extends UIPlugin {
     if (e.target.checked == true) this.trigger("disable-tab-activation");
     if (e.target.checked == false) this.trigger("enable-tab-activation");
   }
-  selectedElectrodeChanged(...args) {
-    console.log("Selected Electrode Changed!");
-    console.log(...args);
+  selectedElectrodeChanged(electrode) {
+    this.selectedElectrodeInfo.innerHTML = electrode.id;
+  }
+  setZero() {
+    console.log("Setting Zero!");
   }
   moveLocal(dir) {
     if (document.activeElement != this.element) return;
