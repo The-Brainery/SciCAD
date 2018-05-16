@@ -7,6 +7,18 @@ class MedellaBot extends UIPlugin {
   constructor(elem, focusTracker, port, ...args) {
     super(elem, focusTracker, port, ...args);
 
+    this.toggleBox = yo`
+      <input type="checkbox" onchange=${this.toggleTabDisable.bind(this)}>
+    `;
+
+    this.positionInfo = yo`
+      <b></b>
+    `;
+
+    this.selectedElectrodeInfo = yo`
+      <b></b>
+    `;
+
     let moveContainer;
     moveContainer = yo`
       <div>
@@ -14,24 +26,63 @@ class MedellaBot extends UIPlugin {
         <p>x :
           <input type="number" name="x" min="0" value="0">
           <button onclick=${()=>this.moveTo(moveContainer, "x")}>Move</button>
-        </p>
         <p>y :
           <input type="number" name="y" min="0" value="0">
           <button onclick=${()=>this.moveTo(moveContainer, "y")}>Move</button>
         </p>
+        <b>Use Keyboard For Relative Controls</b>
+        <div>
+          <label>Disable Tab Change?</label>
+          ${this.toggleBox}
+        </div>
+        <button onclick=${()=>this.trigger("stop")}>Stop</button>
+        <p>Position: ${this.positionInfo}</p>
+        <p>Selected Electrode: ${this.selectedElectrodeInfo}</p>
+        <button onclick=${this.setZero.bind(this)}>Set Zero</button>
       </div>
     `;
     this.element.appendChild(moveContainer);
   }
   listen() {
+    this.bindTriggerMsg('medella-bot-server', 'stop', 'stop');
     this.bindTriggerMsg('medella-bot-server', 'move', 'move');
+    this.bindTriggerMsg('medella-bot-server', 'zero', 'zero');
+    this.bindTriggerMsg('global-ui-plugin', 'disable-tab-activation', 'disable-tab-activation');
+    this.bindTriggerMsg('global-ui-plugin', 'enable-tab-activation', 'enable-tab-activation');
+    this.onStateMsg("electrode-controls", "selected-electrode", this.selectedElectrodeChanged.bind(this));
+    this.onStateMsg("global-ui-plugin", "tab-activation-enabled", (val) => {
+      this.toggleBox.checked = !val;
+    });
+    this.onStateMsg("medella-bot-server", 'position', (pos) => {
+      this.positionInfo.innerHTML = pos;
+    });
     Key("left", this.moveLocal.bind(this, DIRECTIONS.LEFT));
     Key("right", this.moveLocal.bind(this, DIRECTIONS.RIGHT));
     Key("up", this.moveLocal.bind(this, DIRECTIONS.UP));
     Key("down", this.moveLocal.bind(this, DIRECTIONS.DOWN));
   }
-  moveLocal(direction) {
+  toggleTabDisable(e) {
+    console.log("toggle called!", e.target.checked);
+    if (e.target.checked == true) this.trigger("disable-tab-activation");
+    if (e.target.checked == false) this.trigger("enable-tab-activation");
+  }
+  selectedElectrodeChanged(electrode) {
+    this.selectedElectrodeInfo.innerHTML = electrode.id;
+  }
+  setZero() {
+    console.log("Setting Zero!");
+  }
+  moveLocal(dir) {
     if (document.activeElement != this.element) return;
+    const {LEFT, RIGHT, UP, DOWN} = DIRECTIONS;
+    let value, axis;
+    if (dir == LEFT)  {value = +1; axis = 'y'};
+    if (dir == RIGHT) {value = -1; axis = 'y'};
+    if (dir == UP) {value = +1; axis = 'x'};
+    if (dir == DOWN) {value = -1; axis = 'x'};
+
+    const position = 'relative';
+    this.trigger('move', {axis, value, position});
   }
   moveTo(container, axis){
     let value;
@@ -39,8 +90,8 @@ class MedellaBot extends UIPlugin {
     let y = parseFloat(container.querySelector("[name='y']").value);
     if (axis == 'x') value = x;
     if (axis == 'y') value = y;
-
-    this.trigger('move', {axis, value});
+    const position = 'absolute';
+    this.trigger('move', {axis, value, position});
   }
 }
 

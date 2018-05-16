@@ -46,16 +46,27 @@ class GlobalUIPlugin extends UIPlugin {
       let items = _.map(this.plugins, name => {return {name, args, onclick}});
       this.menu.innerHTML = '';
       this.menu.appendChild(TabMenu(items));
+      this.setState("tab-activation-enabled", true);
     });
   }
 
   async listen() {
     this.trigger("listening");
-
+    this.onTriggerMsg("disable-tab-activation", () => {
+      this.setState('tab-activation-enabled', false);
+    });
+    this.onTriggerMsg("enable-tab-activation", () => {
+      this.setState('tab-activation-enabled', true);
+    });
     this.onTriggerMsg('change-schema', async (payload) => {
       const LABEL = "global-ui-plugin:change-schema";
       try {
-        this.trigger("activate-tab");
+        let activationEnabled = await this.getState('tab-activation-enabled');
+        console.log({activationEnabled});
+        if (activationEnabled == true) {
+          console.log("Activating tab!!");
+          this._activateTab();
+        }
         await this.pluginInEditorChanged(payload, 'global');
         return this.notifySender(payload, 'done', "change-schema");
       } catch (e) {
