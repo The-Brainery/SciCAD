@@ -29,7 +29,7 @@
     "@scicad/step-ui-plugin": "^1.1.74",
     "@scicad/ui": "^1.1.74",
     "@scicad/version-info": "^1.1.74",
-    "@yac/api": "0.0.24",
+    "@yac/api": "0.0.26",
     "ascoltatori": "git+https://github.com/Lucaszw/ascoltatori.git",
     "cors": "^2.8.4",
     "d64": "^1.0.0",
