@@ -16,6 +16,7 @@
   "dependencies": {
     "@micropede/client": "^0.0.39",
     "@scicad/ui-plugin": "^1.1.73",
+    "keyboard-shortcut": "^1.2.0",
     "serialport": "^6.2.0",
     "yo-yo": "^1.4.1"
   },

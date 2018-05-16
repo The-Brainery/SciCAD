@@ -1,5 +1,7 @@
+const Key = require('keyboard-shortcut');
 const yo = require('yo-yo');
 const UIPlugin = require('@scicad/ui-plugin');
+const DIRECTIONS = {LEFT: "left", UP: "up", DOWN: "down", RIGHT: "right"};
 
 class MedellaBot extends UIPlugin {
   constructor(elem, focusTracker, port, ...args) {
@@ -23,8 +25,14 @@ class MedellaBot extends UIPlugin {
   }
   listen() {
     this.bindTriggerMsg('medella-bot-server', 'move', 'move');
+    Key("left", this.moveLocal.bind(this, DIRECTIONS.LEFT));
+    Key("right", this.moveLocal.bind(this, DIRECTIONS.RIGHT));
+    Key("up", this.moveLocal.bind(this, DIRECTIONS.UP));
+    Key("down", this.moveLocal.bind(this, DIRECTIONS.DOWN));
   }
-
+  moveLocal(direction) {
+    if (document.activeElement != this.element) return;
+  }
   moveTo(container, axis){
     let value;
     let x = parseFloat(container.querySelector("[name='x']").value);
