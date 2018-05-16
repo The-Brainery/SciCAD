@@ -1,6 +1,6 @@
 {
   "name": "@scicad/models",
-  "version": "1.1.74",
+  "version": "1.1.75",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@micropede/client": "0.0.39",
-    "@scicad/device-controller": "^1.1.71",
+    "@scicad/device-controller": "^1.1.75",
     "ajv": "^6.1.1",
     "lodash": "^4.17.5",
     "pkginfo": "^0.4.1",

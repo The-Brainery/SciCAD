@@ -1,6 +1,6 @@
 {
   "name": "@scicad/medella-bot",
-  "version": "1.1.74",
+  "version": "1.1.75",
   "description": "Medella Health Deposition System",
   "main": "node server.js",
   "author": "The Brainery",
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@micropede/client": "^0.0.39",
-    "@scicad/ui-plugin": "^1.1.74",
+    "@scicad/ui-plugin": "^1.1.75",
     "@serialport/parser-delimiter": "^1.0.5",
     "keyboard-shortcut": "^1.2.0",
     "lodash": "^4.17.10",
