@@ -20,11 +20,15 @@ class MedellaBotServer extends MicropedeClient {
     base.write('X0 Y0 Z0\n');
   }
   move(payload){
-    let {axis, value} = payload;
+    let {axis, value, position} = payload;
+    let G;
+    if (position == 'relative') G = 91;
+    if (position == 'absolute') G = 90;
+    // F180 = Set Feedrate (to 180)
     if (axis == 'x') {
-      base.write(`X${value}\n`);
+      base.write(`$J=G${G} X${value} F180\n`);
     } else if (axis == 'y') {
-      base.write(`Y${value} Z${value}\n`);
+      base.write(`$J=G${G} Y${value} Z${value} F180\n`);
     }
   }
 }
