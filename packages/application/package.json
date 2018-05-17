@@ -18,8 +18,8 @@
     "electron-mocha": "^5.0.0"
   },
   "dependencies": {
-    "@micropede/broker": "0.0.28",
-    "@micropede/client": "0.0.39",
+    "@micropede/broker": "0.0.40",
+    "@micropede/client": "0.0.40",
     "@scicad/device-controller": "^1.1.75",
     "@scicad/device-ui-plugin": "^1.1.75",
     "@scicad/dropbot-plugin": "^1.1.75",

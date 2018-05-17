@@ -8,7 +8,7 @@
     "build": "./node_modules/.bin/webpack"
   },
   "dependencies": {
-    "@micropede/client": "0.0.39",
+    "@micropede/client": "0.0.40",
     "@phosphor/widgets": "^1.5.0",
     "@scicad/ui-plugin": "^1.1.75",
     "browser-request": "^0.3.3",
