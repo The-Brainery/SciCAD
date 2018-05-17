@@ -9,18 +9,59 @@ const APPNAME = 'scicad';
 const PORT = 1884;
 const URL = 'http://localhost:3000';
 
-var base = new SerialPort('COM12', {
-  baudRate: 115200
-});
-const parser = base.pipe(new Delimiter({ delimiter: '\r\n' }));
-
-class MedellaBotServer extends MicropedeClient {
-  constructor(...args) {
+class MedellaPortManager extends MicropedeClient {
+  constructor(...args){
+    let serialPorts = args.pop();
     args[5] = {storageUrl: URL};
     super(...args);
-    this.position = null;
+    this.serialPorts = serialPorts;
   }
+
   listen() {
+    SerialPort.list().then(serialPorts => {
+      this.setState("serial-ports", serialPorts);
+    });
+    this.onStateMsg("medella-port-manager", "port", (serialPort) => {
+      var base = new SerialPort(serialPort.comName, {
+        baudRate: 115200
+      });
+
+      const parser = base.pipe(new Delimiter({ delimiter: '\r\n' }));
+
+      base.on('open', function(){
+        let initialized = false;
+        parser.on('data', function (data) {
+          if (initialized == false) {
+            let bot = new MedellaBotServer(APPNAME, undefined, PORT, base);
+            setInterval(() => {
+              base.write("?\n");
+            }, 500);
+          }
+          const message = data.toString();
+          if (_.includes(message, "MPos")) {
+            let pos = message.split("MPos:")[1].split("|FS:")[0].split(",");
+            bot.trigger("position-changed", _.map(pos, parseFloat));
+          } else if (message != "ok"){
+            console.log("msg: ", message);
+          }
+          initialized = true;
+        });
+      });
+    });
+    this.onPutMsg("port", (payload, ...args) => {
+      // Initialize MedellaBotServer
+      this.setState("port", payload.port);
+    });
+  }
+}
+class MedellaBotServer extends MicropedeClient {
+  constructor(...args) {
+    let base = args.pop();
+    args[5] = {storageUrl: URL};
+    super(...args);
+    this.base = base;
+  }
+  async listen() {
     this.onTriggerMsg('move', this.move.bind(this));
     this.onTriggerMsg('stop', this.stop.bind(this));
     this.onTriggerMsg('zero', this.zero.bind(this));
@@ -30,10 +71,10 @@ class MedellaBotServer extends MicropedeClient {
         this.setState("position", pos);
       }
     });
-    base.write('X0 Y0 Z0\n');
+    this.base.write('X0 Y0 Z0\n');
   }
   stop(payload) {
-    base.write('!\n');
+    this.base.write('!\n');
   }
   move(payload){
     let {axis, value, position} = payload;
@@ -42,9 +83,9 @@ class MedellaBotServer extends MicropedeClient {
     if (position == 'absolute') G = 90;
     // F180 = Set Feedrate (to 180)
     if (axis == 'x') {
-      base.write(`$J=G${G} X${value} F180\n`);
+      this.base.write(`$J=G${G} X${value} F180\n`);
     } else if (axis == 'y') {
-      base.write(`$J=G${G} Y${value} Z${value} F180\n`);
+      this.base.write(`$J=G${G} Y${value} Z${value} F180\n`);
     }
   }
   zero(payload) {
@@ -52,23 +93,6 @@ class MedellaBotServer extends MicropedeClient {
   }
 }
 
-let bot;
-base.on('open', function(){
-  let initialized = false;
-  parser.on('data', function (data) {
-    if (initialized == false) {
-      bot = new MedellaBotServer(APPNAME, undefined, PORT);
-      setInterval(() => {
-        base.write("?\n");
-      }, 500);
-    }
-    const message = data.toString();
-    if (_.includes(message, "MPos")) {
-      let pos = message.split("MPos:")[1].split("|FS:")[0].split(",");
-      bot.trigger("position-changed", _.map(pos, parseFloat));
-    } else if (message != "ok"){
-      console.log("msg: ", message);
-    }
-    initialized = true;
-  });
+SerialPort.list().then(serialPorts => {
+  let bot = new MedellaPortManager(APPNAME, undefined, PORT, serialPorts);
 });

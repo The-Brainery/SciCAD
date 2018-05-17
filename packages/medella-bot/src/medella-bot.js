@@ -11,13 +11,9 @@ class MedellaBot extends UIPlugin {
       <input type="checkbox" onchange=${this.toggleTabDisable.bind(this)}>
     `;
 
-    this.positionInfo = yo`
-      <b></b>
-    `;
-
-    this.selectedElectrodeInfo = yo`
-      <b></b>
-    `;
+    this.positionInfo = yo`<b></b>`;
+    this.selectedElectrodeInfo = yo`<b></b>`;
+    this.serialPortsInfo = yo`<b></b>`;
 
     let moveContainer;
     moveContainer = yo`
@@ -39,11 +35,13 @@ class MedellaBot extends UIPlugin {
         <p>Position: ${this.positionInfo}</p>
         <p>Selected Electrode: ${this.selectedElectrodeInfo}</p>
         <button onclick=${this.setZero.bind(this)}>Set Zero</button>
+        ${this.serialPortsInfo}
       </div>
     `;
     this.element.appendChild(moveContainer);
   }
   listen() {
+    this.bindPutMsg('medella-port-manager', 'port', 'put-port');
     this.bindTriggerMsg('medella-bot-server', 'stop', 'stop');
     this.bindTriggerMsg('medella-bot-server', 'move', 'move');
     this.bindTriggerMsg('medella-bot-server', 'zero', 'zero');
@@ -55,6 +53,36 @@ class MedellaBot extends UIPlugin {
     });
     this.onStateMsg("medella-bot-server", 'position', (pos) => {
       this.positionInfo.innerHTML = pos;
+    });
+    this.onStateMsg('medella-port-manager', 'serial-ports', (ports) => {
+      // Create a DropDown list with available serail ports:
+      this.serialPortsInfo.innerHTML = '';
+
+      const selectChanged = (e) => {
+        let select = e.target;
+        // console.log({select});
+        let port = _.get(select, 'selectedOptions[0].port');
+        this.trigger('put-port', {port});
+        console.log("SELECT CHANGED!!!");
+        console.log(port);
+      };
+
+      let select = yo`
+        <select name="serial-ports" onchange=${selectChanged.bind(this)}>
+          ${_.map(ports, (port)=> {
+            let option = yo` <option value="${port.comName}">
+                ${port.comName} | ${port.manufacturer}
+            </option>`;
+            option.port = port;
+            return option;
+          })}
+        </select>
+      `;
+
+      this.serialPortsInfo.appendChild(select);
+      // this.serialPortsInfo.innerHTML = JSON.stringify(ports);
+      console.log("Received Serial Ports!!!");
+      console.log({ports});
     });
     Key("left", this.moveLocal.bind(this, DIRECTIONS.LEFT));
     Key("right", this.moveLocal.bind(this, DIRECTIONS.RIGHT));
