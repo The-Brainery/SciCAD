@@ -27,12 +27,12 @@ class MedellaPortManager extends MicropedeClient {
       });
 
       const parser = base.pipe(new Delimiter({ delimiter: '\r\n' }));
-
+      let bot;
       base.on('open', function(){
         let initialized = false;
         parser.on('data', function (data) {
           if (initialized == false) {
-            let bot = new MedellaBotServer(APPNAME, undefined, PORT, base);
+            bot = new MedellaBotServer(APPNAME, undefined, PORT, base);
             setInterval(() => {
               base.write("?\n");
             }, 500);

@@ -13,7 +13,7 @@ class MedellaBot extends UIPlugin {
 
     this.positionInfo = yo`<b></b>`;
     this.selectedElectrodeInfo = yo`<b></b>`;
-    this.serialPortsInfo = yo`<b></b>`;
+    this.serialPortsInfo = yo`<div></div>`;
 
     let moveContainer;
     moveContainer = yo`
@@ -35,7 +35,10 @@ class MedellaBot extends UIPlugin {
         <p>Position: ${this.positionInfo}</p>
         <p>Selected Electrode: ${this.selectedElectrodeInfo}</p>
         <button onclick=${this.setZero.bind(this)}>Set Zero</button>
-        ${this.serialPortsInfo}
+        <p>
+          ${this.serialPortsInfo}
+          <button onclick=${this.changePort.bind(this)}> Update Port</button>
+        </p>
       </div>
     `;
     this.element.appendChild(moveContainer);
@@ -58,17 +61,8 @@ class MedellaBot extends UIPlugin {
       // Create a DropDown list with available serail ports:
       this.serialPortsInfo.innerHTML = '';
 
-      const selectChanged = (e) => {
-        let select = e.target;
-        // console.log({select});
-        let port = _.get(select, 'selectedOptions[0].port');
-        this.trigger('put-port', {port});
-        console.log("SELECT CHANGED!!!");
-        console.log(port);
-      };
-
       let select = yo`
-        <select name="serial-ports" onchange=${selectChanged.bind(this)}>
+        <select name="serial-ports">
           ${_.map(ports, (port)=> {
             let option = yo` <option value="${port.comName}">
                 ${port.comName} | ${port.manufacturer}
@@ -78,19 +72,19 @@ class MedellaBot extends UIPlugin {
           })}
         </select>
       `;
-
       this.serialPortsInfo.appendChild(select);
-      // this.serialPortsInfo.innerHTML = JSON.stringify(ports);
-      console.log("Received Serial Ports!!!");
-      console.log({ports});
     });
     Key("left", this.moveLocal.bind(this, DIRECTIONS.LEFT));
     Key("right", this.moveLocal.bind(this, DIRECTIONS.RIGHT));
     Key("up", this.moveLocal.bind(this, DIRECTIONS.UP));
     Key("down", this.moveLocal.bind(this, DIRECTIONS.DOWN));
   }
+  changePort(...args) {
+    let select = this.serialPortsInfo.children[0];
+    let port = _.get(select, 'selectedOptions[0].port');
+    this.trigger('put-port', {port});
+  }
   toggleTabDisable(e) {
-    console.log("toggle called!", e.target.checked);
     if (e.target.checked == true) this.trigger("disable-tab-activation");
     if (e.target.checked == false) this.trigger("enable-tab-activation");
   }
