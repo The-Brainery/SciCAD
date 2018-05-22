@@ -15,6 +15,7 @@ const Ray = (x1,y1,x2,y2) => {
 
 class SvgControls {
   constructor(element) {
+    this.element = element;
     this.paths = [];
     this.init(element);
   }
@@ -33,7 +34,6 @@ class SvgControls {
   }
 
   addListeners() {
-    document.addEventListener("keyup", this.moveLocal.bind(this));
     document.addEventListener("keydown", (e) => {
       if (e.key == "Shift") this.shiftDown = true;
     });

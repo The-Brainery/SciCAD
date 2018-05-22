@@ -39,6 +39,11 @@ class Device2UIPlugin extends UIPlugin {
   }
 
   listen() {
+
+    document.addEventListener("keyup", (e) => {
+      if (this.hasFocus == true) this.svgControls.moveLocal(e);
+    });
+
     // TODO: Replace setTImeout with some page ready event...
     setTimeout(()=> {
       this.initTransform();
@@ -192,8 +197,7 @@ class Device2UIPlugin extends UIPlugin {
           video.play();
       });
     }
-
-    let controls = new SvgControls(deviceContainer);
+    this.svgControls = new SvgControls(deviceContainer, this.panel);
 
   }
 
