@@ -1,6 +1,6 @@
 {
   "name": "@scicad/step-ui-plugin",
-  "version": "1.1.75",
+  "version": "1.1.76",
   "description": "UI Plugin for loading scicad steps",
   "main": "scicad.json",
   "scripts": {
@@ -15,9 +15,9 @@
   "dependencies": {
     "@micropede/client": "^0.0.40",
     "@scicad/helpers": "^1.1.75",
-    "@scicad/jsoneditor-mixins": "^1.1.75",
+    "@scicad/jsoneditor-mixins": "^1.1.76",
     "@scicad/ui-mixins": "^1.1.75",
-    "@scicad/ui-plugin": "^1.1.75",
+    "@scicad/ui-plugin": "^1.1.76",
     "ajv": "^6.2.0",
     "bootstrap": "^4.0.0",
     "browser-request": "^0.3.3",
