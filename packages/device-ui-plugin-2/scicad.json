@@ -1,0 +1,6 @@
+{
+  "name": "device-2-ui-plugin-2",
+  "version": "0.1.0",
+  "type": "ui",
+  "script": "build/device-ui-plugin-2.web.js"
+}

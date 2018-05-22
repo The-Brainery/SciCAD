@@ -25,6 +25,7 @@
     "@scicad/dropbot-plugin": "^1.1.76",
     "@scicad/global-ui-plugin": "^1.1.76",
     "@scicad/medella-bot": "^1.1.76",
+    "@scicad/device-ui-plugin-2": "^1.1.76",
     "@scicad/models": "^1.1.76",
     "@scicad/step-ui-plugin": "^1.1.76",
     "@scicad/ui": "^1.1.76",
@@ -61,7 +62,8 @@
       "@scicad/step-ui-plugin",
       "@scicad/dropbot-plugin",
       "@scicad/global-ui-plugin",
-      "@scicad/medella-bot"
+      "@scicad/medella-bot",
+      "@scicad/device-ui-plugin-2"
     ],
     "defaultProcessPlugins": [
       "@scicad/medella-bot",

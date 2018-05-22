@@ -6,11 +6,18 @@
   "author": "Lucas Zeer",
   "license": "MIT",
   "private": false,
+  "scripts": {
+    "build": "./node_modules/.bin/webpack"
+  },
   "devDependencies": {
     "webpack": "3"
   },
   "dependencies": {
     "@scicad/ui-plugin": "^1.1.76",
+    "dat.gui": "^0.7.2",
+    "lodash": "^4.17.10",
+    "perspective-transform": "^1.1.3",
+    "svg-intersections": "^0.4.0",
     "yo-yo": "^1.4.1"
   }
 }
