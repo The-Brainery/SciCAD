@@ -96,7 +96,7 @@ class WebServer extends MicropedeClient {
             name: name,
             path: path.dirname(_path),
             prevLog: [],
-            autostart: true
+            autostart: false
           });
         });
         this.yacinfo.yacProjects = projects;
