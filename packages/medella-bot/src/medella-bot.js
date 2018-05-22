@@ -45,9 +45,9 @@ class MedellaBot extends UIPlugin {
   }
   listen() {
     this.bindPutMsg('medella-port-manager', 'port', 'put-port');
+    this.bindTriggerMsg('medella-port-manager', 'zero', 'zero');
     this.bindTriggerMsg('medella-bot-server', 'stop', 'stop');
     this.bindTriggerMsg('medella-bot-server', 'move', 'move');
-    this.bindTriggerMsg('medella-bot-server', 'zero', 'zero');
     this.bindTriggerMsg('global-ui-plugin', 'disable-tab-activation', 'disable-tab-activation');
     this.bindTriggerMsg('global-ui-plugin', 'enable-tab-activation', 'enable-tab-activation');
     this.onStateMsg("electrode-controls", "selected-electrode", this.selectedElectrodeChanged.bind(this));
@@ -92,7 +92,7 @@ class MedellaBot extends UIPlugin {
     this.selectedElectrodeInfo.innerHTML = electrode.id;
   }
   setZero() {
-    console.log("Setting Zero!");
+    this.trigger("zero");
   }
   moveLocal(dir) {
     if (document.activeElement != this.element) return;
