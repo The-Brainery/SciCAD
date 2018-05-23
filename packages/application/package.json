@@ -1,7 +1,7 @@
 {
   "name": "@scicad/application",
   "productName": "scicad",
-  "version": "1.1.77",
+  "version": "1.1.78",
   "description": "",
   "main": "bin/scicad",
   "scripts": {
@@ -22,9 +22,9 @@
     "@micropede/client": "0.0.40",
     "@scicad/device-controller": "^1.1.76",
     "@scicad/device-ui-plugin": "^1.1.76",
-    "@scicad/device-ui-plugin-2": "^1.1.77",
+    "@scicad/device-ui-plugin-2": "^1.1.78",
     "@scicad/dropbot-plugin": "^1.1.76",
-    "@scicad/ferrobot-plugin": "^1.0.0",
+    "@scicad/ferrobot-plugin": "^1.1.78",
     "@scicad/global-ui-plugin": "^1.1.76",
     "@scicad/medella-bot": "^1.1.77",
     "@scicad/models": "^1.1.76",

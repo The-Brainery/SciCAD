@@ -26,6 +26,6 @@
     "packages/device-ui-plugin-2",
     "packages/ferrobot-plugin"
   ],
-  "version": "1.1.77",
+  "version": "1.1.78",
   "npmClient": "yarn"
 }

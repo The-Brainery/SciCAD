@@ -1,6 +1,6 @@
 {
   "name": "@scicad/ferrobot-plugin",
-  "version": "1.0.0",
+  "version": "1.1.78",
   "description": "Plugin for the Ferrobot liquid handling system",
   "main": "node ferrobot-server.js",
   "author": "Lucas Zeer",
