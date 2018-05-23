@@ -6,7 +6,7 @@ class FerrobotUIPlugin extends UIPlugin {
     super(elem, focusTracker, port, ...args);
     this.element.innerHTML = "";
     this.element.appendChild(yo`
-      <b>Hello World!</b>
+      <b> Control from Process Plugin Manager</b>
     `);
   }
 }
