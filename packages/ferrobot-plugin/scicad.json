@@ -1,0 +1,5 @@
+{
+  "name": "ferrobot",
+  "type": "ui",
+  "script": "build/ferrobot-ui-plugin.web.js"
+}

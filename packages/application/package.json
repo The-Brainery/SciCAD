@@ -24,6 +24,7 @@
     "@scicad/device-ui-plugin": "^1.1.76",
     "@scicad/device-ui-plugin-2": "^1.1.77",
     "@scicad/dropbot-plugin": "^1.1.76",
+    "@scicad/ferrobot-plugin": "^1.0.0",
     "@scicad/global-ui-plugin": "^1.1.76",
     "@scicad/medella-bot": "^1.1.77",
     "@scicad/models": "^1.1.76",
@@ -62,10 +63,12 @@
       "@scicad/step-ui-plugin",
       "@scicad/dropbot-plugin",
       "@scicad/global-ui-plugin",
+      "@scicad/ferrobot-plugin",
       "@scicad/medella-bot",
       "@scicad/device-ui-plugin-2"
     ],
     "defaultProcessPlugins": [
+      "@scicad/ferrobot-plugin",
       "@scicad/medella-bot",
       "@scicad/dropbot-plugin"
     ]

@@ -23,7 +23,8 @@
     "packages/jsoneditor-mixins",
     "packages/version-info",
     "packages/medella-bot",
-    "packages/device-ui-plugin-2"
+    "packages/device-ui-plugin-2",
+    "packages/ferrobot-plugin"
   ],
   "version": "1.1.77",
   "npmClient": "yarn"
