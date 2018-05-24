@@ -27,6 +27,16 @@ class SvgControls {
     this.init(element);
   }
 
+  executeAll() {
+    let routes = this.element.querySelectorAll(".route");
+    _.each(routes, (r) => r.execute());
+  }
+
+  clearAll() {
+    let routes = this.element.querySelectorAll(".route");
+    _.each(routes, (r) => r.remove());
+  }
+
   loadSvg() {
     // TODO: Make the default svg accessible through mqtt
     let xhr = new XMLHttpRequest();
@@ -78,7 +88,6 @@ class SvgControls {
     if (!_.includes(keys, e.code)) return;
     let x1,y1,x2,y2,ray;
 
-    console.log({paths: this.paths});
     let path = _.find(this.paths, "selected");
     let bbox = path.getBBox();
     let collisions = [];
@@ -219,6 +228,17 @@ class SvgControls {
         line.stroke(INACTIVE_LINE_OPTIONS);
         line.ids = activeRoute.ids;
         line.channels = activeRoute.channels;
+        line.node.setAttribute("class", "route");
+
+        line.node.execute = async (time=1) => {
+          for (let [i, channel] of line.channels.entries()) {
+            let paths = svg.querySelectorAll(`[data-channels="${channel}"]`);
+            _.each(paths, (p) => p.active = true);
+            await new Promise((res,rej)=>setTimeout(res, time*1000));
+            _.each(paths, (p) => p.active = false);
+          }
+        };
+
         line.node.addEventListener("contextmenu", (e) => {
           line.stroke(SELECTED_LINE_OPTIONS);
 
@@ -230,27 +250,10 @@ class SvgControls {
           }
           document.addEventListener("click", unselectFcn);
 
-          const removeRoute = (e) => {
-            line.node.remove();
-          }
-
-          const execute = async (e) => {
-            console.log({ids: line.ids});
-            let time = 1; //seconds
-
-            for (let [i, channel] of line.channels.entries()) {
-              let paths = svg.querySelectorAll(`[data-channels="${channel}"]`);
-              _.each(paths, (p) => p.active = true);
-              console.log({paths});
-              await new Promise((res,rej)=>setTimeout(res, time*1000));
-              _.each(paths, (p) => p.active = false);
-            }
-          }
-
           let clicked = _.noop;
           let items = [
-            {title: 'Remove Route', fn: removeRoute.bind(this)},
-            {title: 'Execute Route', fn: execute.bind(this)}
+            {title: 'Remove Route', fn: line.node.remove.bind(this)},
+            {title: 'Execute Route', fn: line.node.execute.bind(this)}
           ];
           basicContext.show(items, e);
         });
