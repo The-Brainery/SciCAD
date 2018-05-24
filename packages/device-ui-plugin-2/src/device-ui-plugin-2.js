@@ -1,3 +1,6 @@
+require('basiccontext/dist/basicContext.min.css');
+require('basiccontext/dist/themes/default.min.css');
+
 const UIPlugin = require('@scicad/ui-plugin');
 const SvgControls = require('./SvgControls');
 
@@ -40,6 +43,7 @@ class Device2UIPlugin extends UIPlugin {
       this.element.addEventListener("mousedown", this.mousedown.bind(this));
       this.element.addEventListener("mouseup", this.mouseup.bind(this));
       this.element.addEventListener("mousemove", this.move.bind(this));
+
       let markers = this.element.querySelectorAll(".corner");
 
       document.addEventListener("keydown", (e) => {
@@ -80,11 +84,8 @@ class Device2UIPlugin extends UIPlugin {
   mousedown(e) {
     let container = this.element.querySelector("#container-outer");
     let bbox = container.getBoundingClientRect();
-
     let corners = getScaledCoordinates(this.corners, bbox, this.scale);
-
     let x, y, dx, dy;
-
     let best = 400;
 
     x = e.pageX - bbox.left;
@@ -100,7 +101,6 @@ class Device2UIPlugin extends UIPlugin {
         this.currentcorner = i;
       }
     }
-
     this.move(e);
   }
 
@@ -268,17 +268,26 @@ const CreateGUI = (deviceUIPlugin) => {
   let gui;
 
   var menu = {
+    get hideAnchors() {
+      return this._hideAnchors || false;
+    },
+    set hideAnchors(_hideAnchors) {
+      let corners = deviceUIPlugin.element.querySelectorAll(".corner");
+      if (_hideAnchors == false) _.each(corners, (c) => c.style.display = "block")
+      if (_hideAnchors == true) _.each(corners, (c) => c.style.display = "none")
+      this._hideAnchors = _hideAnchors;
+    },
     get flipForeground() {
       return this._flipForeground || false;
     },
     set flipForeground(_flipForeground) {
       if (_flipForeground == true) {
-        CreateScene(deviceUIPlugin, 'bottom');
+        deviceUIPlugin.svgControls = CreateScene(deviceUIPlugin, 'bottom');
         deviceUIPlugin.initTransform();
         deviceUIPlugin.element.appendChild(gui.domElement);
       }
       if (_flipForeground == false) {
-        CreateScene(deviceUIPlugin, 'top');
+        deviceUIPlugin.svgControls = CreateScene(deviceUIPlugin, 'top');
         deviceUIPlugin.initTransform();
         deviceUIPlugin.element.appendChild(gui.domElement);
       }
@@ -288,6 +297,7 @@ const CreateGUI = (deviceUIPlugin) => {
 
   gui = new dat.GUI({autoPlace: false});
   gui.add(menu, 'flipForeground');
+  gui.add(menu, 'hideAnchors');
   gui.domElement.style.position = "absolute";
   gui.domElement.style.top = "0px";
   gui.domElement.style.display = "inline-table";
@@ -332,6 +342,7 @@ const CreateScene = (deviceUIPlugin, placement='top') => {
 
   deviceUIPlugin.element.innerHTML = '';
   deviceUIPlugin.element.appendChild(container);
+  deviceUIPlugin.scale = 1;
 
   if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {

@@ -1,6 +1,8 @@
 const yo = require('yo-yo');
 const _ = require('lodash');
 const svgIntersections = require('svg-intersections');
+const basicContext = require('basiccontext');
+
 const SVG = require('svg.js');
 
 // Make some of these constants accessible through mqtt
@@ -14,6 +16,10 @@ const Ray = (x1,y1,x2,y2) => {
   return svgIntersections.shape("line", { x1, y1, x2, y2 });
 }
 
+const ACTIVE_LINE_OPTIONS = { width: 1, color: 'yellow'};
+const INACTIVE_LINE_OPTIONS = {width: 1, color: 'green'};
+const SELECTED_LINE_OPTIONS = {width: 1, color: 'red'};
+
 class SvgControls {
   constructor(element) {
     this.element = element;
@@ -25,8 +31,6 @@ class SvgControls {
     // TODO: Make the default svg accessible through mqtt
     let xhr = new XMLHttpRequest();
     xhr.open("GET","/default.svg",false);
-    // Following line is just to be on the safe side;
-    // not needed if your server delivers SVG with correct MIME type
     xhr.overrideMimeType("image/svg+xml");
     xhr.send("");
 
@@ -42,6 +46,7 @@ class SvgControls {
     document.addEventListener("keyup", (e) => {
       if (e.key == "Shift") this.shiftDown = false;
     });
+
   }
 
   castRay(ray, ignore) {
@@ -73,6 +78,7 @@ class SvgControls {
     if (!_.includes(keys, e.code)) return;
     let x1,y1,x2,y2,ray;
 
+    console.log({paths: this.paths});
     let path = _.find(this.paths, "selected");
     let bbox = path.getBBox();
     let collisions = [];
@@ -129,9 +135,7 @@ class SvgControls {
     this.addListeners();
 
     let svg = this.loadSvg();
-    // let draw = SVG.adopt(svg);
-    // console.log({draw});
-    // draw.rect(10,10);
+    let draw = SVG.adopt(svg);
 
     svg.setAttribute("preserveAspectRatio", "none");
     svg.setAttribute("width", "100%");
@@ -140,6 +144,10 @@ class SvgControls {
     this.paths = svg.querySelectorAll("[data-channels]");
 
     let _this = this;
+
+    let activeRoute = {line: null, ids: null};
+    let drawingRoute = false;
+
     _.each(this.paths, (path) => {
 
       const d = path.getAttribute("d");
@@ -173,6 +181,81 @@ class SvgControls {
         path.active = !path.active;
         if (_this.shiftDown == true) path.selected = true;
       });
+
+      path.addEventListener("mousedown", (e) => {
+        drawingRoute = true;
+        let ids = [path.id];
+        let line = draw.polyline().fill('none').stroke(ACTIVE_LINE_OPTIONS);
+
+        activeRoute.ids = [path.id];
+        activeRoute.channels = [path.dataset.channels];
+        activeRoute.line = line;
+
+        let bbox = path.getBBox();
+        let x = bbox.x + bbox.width/2;
+        let y = bbox.y + bbox.height/2;
+
+        line.plot([[x, y]]);
+      });
+
+      path.addEventListener("mouseover", (e) => {
+        if (drawingRoute != true) return;
+        activeRoute.ids.push(path.id);
+        activeRoute.channels.push(path.dataset.channels);
+        let line = activeRoute.line;
+        let prev = line.array();
+        let bbox = path.getBBox();
+
+        let x = bbox.x + bbox.width/2;
+        let y = bbox.y + bbox.height/2;
+
+        line.plot([...prev.value, [x, y]]);
+      });
+
+      document.addEventListener("mouseup", (e) => {
+        if (drawingRoute != true) return;
+        drawingRoute = false;
+        const line = activeRoute.line;
+        line.stroke(INACTIVE_LINE_OPTIONS);
+        line.ids = activeRoute.ids;
+        line.channels = activeRoute.channels;
+        line.node.addEventListener("contextmenu", (e) => {
+          line.stroke(SELECTED_LINE_OPTIONS);
+
+          // Unselect on "click" action
+          let unselectFcn;
+          unselectFcn = (e) => {
+            line.stroke(INACTIVE_LINE_OPTIONS);
+            document.removeEventListener("click", unselectFcn);
+          }
+          document.addEventListener("click", unselectFcn);
+
+          const removeRoute = (e) => {
+            line.node.remove();
+          }
+
+          const execute = async (e) => {
+            console.log({ids: line.ids});
+            let time = 1; //seconds
+
+            for (let [i, channel] of line.channels.entries()) {
+              let paths = svg.querySelectorAll(`[data-channels="${channel}"]`);
+              _.each(paths, (p) => p.active = true);
+              console.log({paths});
+              await new Promise((res,rej)=>setTimeout(res, time*1000));
+              _.each(paths, (p) => p.active = false);
+            }
+          }
+
+          let clicked = _.noop;
+          let items = [
+            {title: 'Remove Route', fn: removeRoute.bind(this)},
+            {title: 'Execute Route', fn: execute.bind(this)}
+          ];
+          basicContext.show(items, e);
+        });
+      });
+
 
     });
 
