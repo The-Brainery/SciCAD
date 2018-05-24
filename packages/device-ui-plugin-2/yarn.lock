@@ -2409,6 +2409,10 @@ svg-intersections@^0.4.0:
     kld-affine "2.0.0"
     kld-polynomial "0.1.1"
 
+svg.js@^2.6.4:
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/svg.js/-/svg.js-2.6.4.tgz#034085b13391c6fcca1a0185a34dbea6c3e78dc3"
+
 tapable@^0.2.7:
   version "0.2.8"
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-0.2.8.tgz#99372a5c999bf2df160afc0d74bed4f47948cd22"

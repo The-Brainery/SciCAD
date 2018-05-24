@@ -290,7 +290,7 @@ const CreateGUI = (deviceUIPlugin) => {
   gui.add(menu, 'flipForeground');
   gui.domElement.style.position = "absolute";
   gui.domElement.style.top = "0px";
-  gui.domElement.style.height = "100%";
+  gui.domElement.style.display = "inline-table";
 
   return gui;
 }

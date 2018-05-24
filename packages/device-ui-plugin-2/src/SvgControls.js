@@ -1,6 +1,7 @@
 const yo = require('yo-yo');
 const _ = require('lodash');
 const svgIntersections = require('svg-intersections');
+const SVG = require('svg.js');
 
 // Make some of these constants accessible through mqtt
 const GREEN = "rgb(0,255,0)";
@@ -128,6 +129,10 @@ class SvgControls {
     this.addListeners();
 
     let svg = this.loadSvg();
+    // let draw = SVG.adopt(svg);
+    // console.log({draw});
+    // draw.rect(10,10);
+
     svg.setAttribute("preserveAspectRatio", "none");
     svg.setAttribute("width", "100%");
     svg.setAttribute("height", "100%");
