@@ -6,7 +6,7 @@ const dat = require('dat.gui');
 const yo = require('yo-yo');
 const _ = require('lodash');
 
-const getScaledCoordinates = (origCorners, bbox) => {
+const getScaledCoordinates = (origCorners, bbox, scale) => {
   const corners = [];
 
   for (var i = 0; i != 8; i += 2) {
@@ -15,8 +15,8 @@ const getScaledCoordinates = (origCorners, bbox) => {
     const x_c = bbox.width/2 - x_tl;
     const y_c = bbox.height/2 - y_tl;
 
-    const x_c_scaled = x_c * 0.7;
-    const y_c_scaled = y_x * 0.7;
+    const x_c_scaled = x_c * scale;
+    const y_c_scaled = y_c * scale;
 
 
     const x_tl_scaled = bbox.width/2 - x_c_scaled;
@@ -28,27 +28,21 @@ const getScaledCoordinates = (origCorners, bbox) => {
   return corners;
 }
 
-const getOriginalCoordinates = (scaledCorners, bbox) => {
-  const corners = [];
+const getOriginalCoordinates = (x, y, bbox, scale) => {
 
-  for (var i = 0; i != 8; i += 2) {
-    const x_tl_scaled = scaledCorners[i];
-    const y_tl_scaled = scaledCorners[i+1];
+  const x_tl_scaled = x;
+  const y_tl_scaled = y;
 
-    const x_c_scaled = bbox.width/2 - x_tl_scaled;
-    const y_c_scaled = bbox.height/2 - y_tl_scaled;
+  const x_c_scaled = bbox.width/2 - x_tl_scaled;
+  const y_c_scaled = bbox.height/2 - y_tl_scaled;
 
-    const x_c = x_c_scaled/0.7;
-    const y_c = y_c_scaled/0.7;
+  const x_c = x_c_scaled/scale;
+  const y_c = y_c_scaled/scale;
 
-    const x_tl = bbox.width/2 - x_c;
-    const y_tl = bbox.height/2 - y_c;
+  const x_tl = bbox.width/2 - x_c;
+  const y_tl = bbox.height/2 - y_c;
 
-    corners[i] = x_tl;
-    corners[i+1] = y_tl;
-  }
-
-  return corners;
+  return {x: x_tl, y: y_tl};
 }
 
 
@@ -59,6 +53,7 @@ class Device2UIPlugin extends UIPlugin {
     this.currentcorner = -1;
     this.shiftDown = false;
     this.prevAnchors = [];
+    this.scale = 1;
     this.createScene("top");
 
     // Construct menu
@@ -86,15 +81,14 @@ class Device2UIPlugin extends UIPlugin {
 
   listen() {
     document.addEventListener("wheel", (e) => {
-      let background = this.background;
-      let transform = background.style.transform;
+      let container = this.element.querySelector("#container");
+      let transform = container.style.transform;
       let scale = parseFloat(transform.split("scale(")[1].split(")")[0]);
-      if (e.deltaY > 0) {
-        background.style.transform = `scale(${scale - 0.01})`;
-      }
-      if (e.deltaY < 0) {
-        background.style.transform = `scale(${scale + 0.01})`;
-      }
+
+      if (e.deltaY > 0) this.scale = scale - 0.01;
+      if (e.deltaY < 0) this.scale = scale + 0.01;
+
+      container.style.transform = `scale(${this.scale})`;
     });
 
     document.addEventListener("keyup", (e) => {
@@ -141,11 +135,10 @@ class Device2UIPlugin extends UIPlugin {
   }
 
   mousedown(e) {
-    let container = this.element.querySelector("#container");
+    let container = this.element.querySelector("#container-outer");
     let bbox = container.getBoundingClientRect();
 
-    let corners = this.corners;
-    // let corners = getScaledCoordinates(this.corners, bbox);
+    let corners = getScaledCoordinates(this.corners, bbox, this.scale);
 
     let x, y, dx, dy;
 
@@ -164,7 +157,6 @@ class Device2UIPlugin extends UIPlugin {
         this.currentcorner = i;
       }
     }
-
     // localStorage.setItem("corners", JSON.stringify(this.corners));
     this.move(e);
   }
@@ -175,14 +167,17 @@ class Device2UIPlugin extends UIPlugin {
 
   move(e) {
     let x, y;
-    let container = this.element.querySelector("#container");
+    let container = this.element.querySelector("#container-outer");
     let bbox = container.getBoundingClientRect();
     x = e.pageX - bbox.left;
     y = e.pageY - bbox.top;
 
     if (this.currentcorner < 0) return;
-    this.corners[this.currentcorner] = x;
-    this.corners[this.currentcorner + 1] = y;
+
+    let coords = getOriginalCoordinates(x, y, bbox, this.scale);
+
+    this.corners[this.currentcorner] = coords.x;
+    this.corners[this.currentcorner + 1] = coords.y;
     localStorage.setItem("corners", JSON.stringify(this.corners));
 
     this.update();
@@ -241,13 +236,15 @@ class Device2UIPlugin extends UIPlugin {
     this.background = background;
 
     let container = yo`
-      <div id="container" style="${Styles.container}">
-          ${background}
-          ${this.box}
-          <div id="marker0" style="${Styles.corner}"class="corner">TL</div>
-          <div id="marker2" style="${Styles.corner}"class="corner">TR</div>
-          <div id="marker4" style="${Styles.corner}"class="corner">BL</div>
-          <div id="marker6" style="${Styles.corner}"class="corner">BR</div>
+      <div id="container-outer" style="${Styles.container}">
+        <div id="container" style="${Styles.container}">
+            ${background}
+            ${this.box}
+            <div id="marker0" style="${Styles.corner}"class="corner">TL</div>
+            <div id="marker2" style="${Styles.corner}"class="corner">TR</div>
+            <div id="marker4" style="${Styles.corner}"class="corner">BL</div>
+            <div id="marker6" style="${Styles.corner}"class="corner">BR</div>
+        </div>
       </div>
     `;
 
@@ -305,6 +302,7 @@ const Styles = {
     overflow: visible;
     user-select: none;
     margin: 0 auto;
+    transform: scale(1);
   `,
   box: `
     position: absolute;
