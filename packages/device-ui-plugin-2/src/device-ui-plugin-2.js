@@ -271,8 +271,8 @@ const CreateGUI = (deviceUIPlugin) => {
     executeAll() {
       deviceUIPlugin.svgControls.executeAll();
     },
-    clearAll() {
-      deviceUIPlugin.svgControls.clearAll();
+    removeAll() {
+      deviceUIPlugin.svgControls.removeAll();
     },
     get hideAnchors() {
       return this._hideAnchors || false;
@@ -304,7 +304,7 @@ const CreateGUI = (deviceUIPlugin) => {
   gui = new dat.GUI({autoPlace: false});
   gui.add(menu, 'flipForeground');
   gui.add(menu, 'hideAnchors');
-  gui.add(menu, 'clearAll');
+  gui.add(menu, 'removeAll');
   gui.add(menu, 'executeAll');
   gui.domElement.style.position = "absolute";
   gui.domElement.style.top = "0px";

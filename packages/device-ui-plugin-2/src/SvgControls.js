@@ -32,7 +32,7 @@ class SvgControls {
     _.each(routes, (r) => r.execute());
   }
 
-  clearAll() {
+  removeAll() {
     let routes = this.element.querySelectorAll(".route");
     _.each(routes, (r) => r.remove());
   }
@@ -252,8 +252,8 @@ class SvgControls {
 
           let clicked = _.noop;
           let items = [
-            {title: 'Remove Route', fn: line.node.remove.bind(this)},
-            {title: 'Execute Route', fn: line.node.execute.bind(this)}
+            {title: 'Remove Route', fn: ()=>line.node.remove()},
+            {title: 'Execute Route', fn: async () => await line.node.execute()}
           ];
           basicContext.show(items, e);
         });
