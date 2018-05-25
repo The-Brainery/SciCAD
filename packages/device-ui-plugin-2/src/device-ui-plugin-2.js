@@ -62,6 +62,27 @@ class Device2UIPlugin extends UIPlugin {
 
   }
 
+  applyFlipRotateTransforms(elem="video") {
+    let node;
+    if (elem == "video") node = this.element.querySelector("video");
+    let style = node.style;
+
+    let rotate = localStorage.getItem("video-rotation") || 0;
+    let scaleX = localStorage.getItem("video-scaleX") || 1;
+    let scaleY = localStorage.getItem("video-scaleY") || 1;
+
+    style.transform = `
+      rotate(${rotate}deg) scaleX(${scaleX}) scaleY(${scaleY})`;
+  }
+
+  rotate(elem="video") {
+    let rotate = parseInt(localStorage.getItem("video-rotation")) || 0;
+    rotate += 90;
+    if (rotate >= 450) rotate = 0;
+    localStorage.setItem("video-rotation", rotate);
+    this.applyFlipRotateTransforms(elem);
+  }
+
   update() {
     let markers = this.element.querySelectorAll(".corner");
     for (var i = 0; i != 8; i += 2) {
@@ -181,6 +202,10 @@ class Device2UIPlugin extends UIPlugin {
 }
 
 const Styles = {
+  video: `
+    object-fit: fill;
+    transform: rotate(0deg);
+  `,
   container: `
     position:relative;
     width: 500px;
@@ -196,7 +221,6 @@ const Styles = {
     left: 0px;
     width: 150px;
     height: 120px;
-    border: 1px solid red;
     transform-origin: 0 0;
     -webkit-transform-origin: 0 0;
     -moz-transform-origin: 0 0;
@@ -298,14 +322,49 @@ const CreateGUI = (deviceUIPlugin) => {
         deviceUIPlugin.element.appendChild(gui.domElement);
       }
       this._flipForeground = _flipForeground;
+    },
+    rotateVideo () {
+      deviceUIPlugin.rotate("video");
+    },
+    get flipVideoX() {
+      let x =  localStorage.getItem("video-scaleX");
+      return x == -1;
+    },
+    set flipVideoX(_flipX) {
+      if (_flipX == true) {
+        localStorage.setItem("video-scaleX", -1);
+      } else {
+        localStorage.setItem("video-scaleX", 1);
+      }
+      deviceUIPlugin.applyFlipRotateTransforms("video");
+    },
+    get flipVideoY() {
+      let y =  localStorage.getItem("video-scaleY");
+      return y == -1;
+    },
+    set flipVideoY(_flipY) {
+      if (_flipY == true) {
+        localStorage.setItem("video-scaleY", -1);
+      } else {
+        localStorage.setItem("video-scaleY", 1);
+      }
+      deviceUIPlugin.applyFlipRotateTransforms("video");
     }
   };
 
   gui = new dat.GUI({autoPlace: false});
-  gui.add(menu, 'flipForeground');
-  gui.add(menu, 'hideAnchors');
-  gui.add(menu, 'removeAll');
-  gui.add(menu, 'executeAll');
+  var sceneFolder = gui.addFolder('Scene');
+  var routeFolder = gui.addFolder('Routes');
+  var videoFolder = gui.addFolder('Video');
+  var svgFolder = gui.addFolder('SVG');
+
+  sceneFolder.add(menu, 'flipForeground');
+  sceneFolder.add(menu, 'hideAnchors');
+  routeFolder.add(menu, 'removeAll');
+  routeFolder.add(menu, 'executeAll');
+  videoFolder.add(menu, 'rotateVideo');
+  videoFolder.add(menu, 'flipVideoX');
+  videoFolder.add(menu, 'flipVideoY');
   gui.domElement.style.position = "absolute";
   gui.domElement.style.top = "0px";
   gui.domElement.style.display = "inline-table";
@@ -321,17 +380,20 @@ const CreateScene = (deviceUIPlugin, placement='top') => {
     </div> `;
 
     foreground = video = yo`
-      <video id="video" style="z-index:5;position:relative;object-fit: fill; width:100%;height:100%;" autoplay></video>
+      <video id="video" style="${Styles.video};z-index:5;position:relative;
+        width:100%;height:100%;" autoplay>
+      </video>
     `;
   } else {
     background = video = yo`
-      <video id="video" style="object-fit: fill;${Styles.background}" autoplay></video>
+      <video id="video" style="${Styles.background};${Styles.video}" autoplay></video>
     `;
 
     foreground = deviceContainer = yo`
       <div style="opacity: 0.5;"></div>
     `;
   }
+
 
   let container = yo`
     <div id="container-outer" style="${Styles.container}">
@@ -350,6 +412,8 @@ const CreateScene = (deviceUIPlugin, placement='top') => {
 
   deviceUIPlugin.element.innerHTML = '';
   deviceUIPlugin.element.appendChild(container);
+  deviceUIPlugin.applyFlipRotateTransforms("video");
+
   deviceUIPlugin.scale = 1;
 
   if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
