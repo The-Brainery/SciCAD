@@ -308,16 +308,19 @@ const CreateGUI = (deviceUIPlugin) => {
       this._hideAnchors = _hideAnchors;
     },
     get flipForeground() {
-      return this._flipForeground || false;
+      let placement = localStorage.getItem("placement");
+      return placement == "bottom";
     },
     set flipForeground(_flipForeground) {
       if (_flipForeground == true) {
-        deviceUIPlugin.svgControls = CreateScene(deviceUIPlugin, 'bottom');
+        localStorage.setItem("placement", "bottom");
+        deviceUIPlugin.svgControls = CreateScene(deviceUIPlugin);
         deviceUIPlugin.initTransform();
         deviceUIPlugin.element.appendChild(gui.domElement);
       }
       if (_flipForeground == false) {
-        deviceUIPlugin.svgControls = CreateScene(deviceUIPlugin, 'top');
+        localStorage.setItem("placement", "top");
+        deviceUIPlugin.svgControls = CreateScene(deviceUIPlugin);
         deviceUIPlugin.initTransform();
         deviceUIPlugin.element.appendChild(gui.domElement);
       }
@@ -372,8 +375,11 @@ const CreateGUI = (deviceUIPlugin) => {
   return gui;
 }
 
-const CreateScene = (deviceUIPlugin, placement='top') => {
+const CreateScene = (deviceUIPlugin) => {
   let background, foreground, deviceContainer, video;
+
+  let placement = localStorage.getItem("placement") || "top";
+
   if (placement == 'top') {
     background = deviceContainer = yo`
     <div style="opacity: 0.5;z-index:10;${Styles.background}">
