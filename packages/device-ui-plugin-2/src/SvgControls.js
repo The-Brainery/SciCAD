@@ -149,6 +149,7 @@ class SvgControls {
     svg.setAttribute("preserveAspectRatio", "none");
     svg.setAttribute("width", "100%");
     svg.setAttribute("height", "100%");
+    svg.style.opacity = "1.0";
     // Todo: Automatically figure out viewBox
     this.paths = svg.querySelectorAll("[data-channels]");
 

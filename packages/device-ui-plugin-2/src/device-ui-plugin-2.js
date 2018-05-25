@@ -352,6 +352,14 @@ const CreateGUI = (deviceUIPlugin) => {
         localStorage.setItem("video-scaleY", 1);
       }
       deviceUIPlugin.applyFlipRotateTransforms("video");
+    },
+    get svgOpacity() {
+      let svg = deviceUIPlugin.element.querySelector("svg");
+      return svg.style.opacity * 100;
+    },
+    set svgOpacity(_svgOpacity) {
+      let svg = deviceUIPlugin.element.querySelector("svg");
+      svg.style.opacity = _svgOpacity / 100.0;
     }
   };
 
@@ -368,6 +376,7 @@ const CreateGUI = (deviceUIPlugin) => {
   videoFolder.add(menu, 'rotateVideo');
   videoFolder.add(menu, 'flipVideoX');
   videoFolder.add(menu, 'flipVideoY');
+  svgFolder.add(menu, 'svgOpacity', 0, 100);
   gui.domElement.style.position = "absolute";
   gui.domElement.style.top = "0px";
   gui.domElement.style.display = "inline-table";
